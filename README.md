@@ -2,7 +2,7 @@
 
 Group report for course 'Visual computing theory and engineering applications' Spring 2017.
 
-====
+---
 
 ### Outline for literature report
 
@@ -16,13 +16,13 @@ Group report for course 'Visual computing theory and engineering applications' S
 
 5. Summary
 
-====
+---
 
-LaTeX 安装参考 [这个链接](https://liam0205.me/texlive/) 。
+**LaTeX 安装**参考 [这个链接](https://liam0205.me/texlive/) 。
 
-Git / GitHub 的基本操作参考 [这个链接](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000) 。
+**Git / GitHub 的基本操作**参考 [这个链接](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000) 。
 
-==== 
+---
 
 一般的操作流程：
 
