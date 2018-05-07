@@ -1,10 +1,10 @@
 # Visual-computing-theory-report
 
-Group report for course 'Visual computing theory and engineering applications' Spring 2017.
+Group report for course **Visual computing theory and engineering applications** Spring 2017.
 
 ---
 
-### Outline for literature report
+### Outline for literature report!
 
 1. Problem Definition
 

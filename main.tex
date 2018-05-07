@@ -399,7 +399,7 @@
 % was not built to handle multiple paragraphs
 %
 
-\author{Shiqi~Peng, Xiaoyang~Huo, Chen~Zuo, Bolin~Lai, Zhuoxun~He, Yue~Hu, Qiuying~Zhang, Qiaoyu~Lu, Ziyang~Zheng, Jinxiang~Liu, Qinwei~Xu, Chen~Ju% <-this % stops a space
+\author{Shiqi~Peng, Xiaoyang~Huo, Chen~Zuo, Bolin~Lai, Zhuoxun~He, Yue~Hu, Qiuying~Zhang, Qiaoyu~Lu, Ziyang~Zheng, Jinxiang~Liu, Qinwei~Xu, Chen~Ju% <-this % stops a space 
 \thanks{All the authors are with the Department
 of Electronic Engineering, Shanghai Jiao Tong University.}}
 
@@ -457,7 +457,7 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 
 \begin{abstract}
 %\boldmath
-\blindtext[1]
+Face recognition is a widely used biometric approach. Face recognition technology has developed rapidly in recent years and it is more direct, user friendly and convenient compared to other methods. But face recognition systems are vulnerable to spoof attacks made by non-real faces. It is an easy way to spoof face recognition systems by facial pictures such as portrait photographs. A secure system needs Liveness detection in order to guard against such spoofing. In this work, face liveness detection approaches are categorized based on the various types techniques used for liveness detection. A review of the latest works regarding face liveness detection works is presented. Based on these works, some feasible improvements have been proposed in the further discussion.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -468,11 +468,8 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-IEEEtran, journal, \LaTeX, paper, template.
+Face recognition, liveness detection, spoof attacks.
 \end{IEEEkeywords}
-
-
-
 
 
 
@@ -489,7 +486,15 @@ IEEEtran, journal, \LaTeX, paper, template.
 
 
 \section{Introduction}
-test for citation \cite{maatta2011face}
+
+The general public has a great need for security measures against spoof attacks. Biometrics is the fastest growing segment of such security industry. Some familiar techniques for identifacation are facial recognition, fingerprint recognition, handwriting verification, hand geometry, retina and iris scanners. Among these techniques, face recognition technology is more direct, user-friendly and convenient compared to other methods. Therefore, it has been applied to various security systems. However, in general, face recognition algorithms cannot distinguish between “live” faces and “non-live” faces, which is a major security issue. It is an easy way to spoof face recognition systems by facial pictures such as portrait photographs. To guard against such spoofing, a security system needs liveness detection.
+
+The main task of a security system is the verification of an individual's identity. The primary reason for this is to prevent impostors from accessing from accessing protected resources. Traditional techniques for security purposes are passwords, but this technique can easily be lost or may be stolen. With the help of physical and biological properties of human beings, a biometric system can offer more security for a security system.
+
+Liveness detection has been a very active research topic in fingerprint recognition and iris recognition communities in recent years. But in face recognition, approaches are very limited. The purpose of liveness detection is to differentiate the feature space into live and non-living. With the help of liveness detection, the performance of biometric system will improve. In face recognition, the usual attack methods may be classified into several categories. The classification is based on what verification proof is provided to face verification system, such as a stolen photo, recorded video, 3D face models, and so on. Anti-spoof problem should be well solved before face recognition systems widely applied in our daily life \cite{chakraborty2014overview}.
+
+The remainder of this paper is organized as following. In section \uppercase\expandafter{\romannumeral2}, a review of the most interesting face liveness detection methods are presented. Then in section \uppercase\expandafter{\romannumeral3}, a discussion is presented citing the advantages and disadvantages of various face liveness detection approaches, and some feasible improvements are proposed. Finally, in section \uppercase\expandafter{\romannumeral4}, a conclusion is drawn.
+
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
@@ -578,19 +583,44 @@ test for citation \cite{maatta2011face}
 
 \section{Literature}
 
-abcdefg 
+Many approaches are implemented in Face Liveness Detection. In this section, some of the most interesting liveness detection methods are presented. 
 
 \subsection{Frequency and Texture based analysis}
 
-abcdefg
+(Zuo Chen and Lai Bolin)
+
+\subsection{Image Quality based analysis}
+
+(Zhang Qiuying and Lu Qiaoyu)
+
+\subsection{Optical Flow based analysis}
+
+(Huo Xiaoyang)
+
+\subsection{Blinking based analysis}
+
+(Peng Shiqi)
+
+\subsection{Video based analysis}
+
+(Zheng Ziyang) The subtitle could be polished...
+
+\subsection{3D Face Shape based analysis}
+
+(Hu Yue and He Zhuoxun)
+
+
 
 
 \section{Discussion}
-abcdefg
+
+Here, liveness detection approaches are categorized based on the type of liveness indicator used to assist the liveness detection of faces. Three main types of indicators were mainly used: motion, texture and life sign.
+
 
 
 \section{Conclusion}
-abcdefg
+
+This work provided an overview of different approaches of face liveness detection. 
 
 
 
