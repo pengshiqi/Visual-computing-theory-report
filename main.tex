@@ -587,7 +587,39 @@ Many approaches are implemented in Face Liveness Detection. In this section, som
 
 \subsection{Frequency and Texture based analysis}
 
-(Zuo Chen and Lai Bolin)
+\textbf{(Zuo Chen and Lai Bolin)}
+
+This approach is basic in Face Liveness Detection. The basic motivation is separating live face from fake face based on some details, such as the texture. Some works use spectrum of face. Live face and fake face may be different in frequency domain, or we can use the low frequency information and high frequency information separately to build a better classifier. In addition, there are several algorithms based on Local Binary Pattern (LBP) to analyse the textures on the given facial image \cite{chingovska2012effectiveness}\cite{maatta2011face}. We can understand this method in a more intuitive way: The live face is a 3D model and this means different parts reflect light differently. A photograph, however, is a platform. It reflects light like a mirror. The different ways of reflection cause the gap between live face and fake face in the texture or frequency. In the experiments, LBP performs well in capture of face texture.
+
+The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale invariant texture measure, derived from a general definition of texture in a local neighborhood. For each pixel, we compare its value with pixels arround it as shown in Fig. \ref{LBP}. The pixel larger than center is denoted as 1 and the one smaller than center is denoted as 0. Then we obtain a sequence of 1 and 0 clockwise or counterclockwise which describes texture information of an image. Finally, we convert the binary sequence to a decimal number. Fig. \ref{results_of_LBP} describes the results of LBP. Three raw images of one girl are under different illuminations. Feature maps obtained by LBP, however, seem similar. It's obvious that these feature maps capture the contour of eyes and nose。
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{Figures/2-A-(3).png}
+\caption{This is an example of LBP operator. Each pixel is given a value according to neighbor pixels. \cite{maatta2011face}}
+\label{LBP}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{Figures/2-A-(4).png}
+\caption{Three raw images are different but the features obtained by LBP are similar to each other.}
+\label{results_of_LBP}
+\end{figure}
+
+After computing LBP of given images, we can construct a classifier based on the feature map, such as neural network and SVM. The authors just use SVM to classify them in \cite{chingovska2012effectiveness}\cite{maatta2011face}. In order to get rid of dimensions of the feature, they compute histogram of each LBP feature map and use it as input to SVM. The structure is shown in Fig. \ref{lbp_based_approach}. The authors implement LBP on the whole image and on each block separately. These features are modeled by histograms and SVM. 
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{Figures/2-A-(1).png}
+\caption{This is an approach \cite{chingovska2012effectiveness} used to implement Face Liveness Detection based on LBP. The authors use LBP and compute the histogram. SVM is used as classification. This work also gives another way that we can divide give images into several blocks and compute LBP on each block.}
+\label{lbp_based_approach}
+\end{figure*}
+
+\bigskip
+
+\textbf{(Experiment Results and Simple Analysis...)}
+
 
 \subsection{Image Quality based analysis}
 
