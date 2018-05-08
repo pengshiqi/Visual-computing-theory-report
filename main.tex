@@ -387,7 +387,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{True or False Face Detection}
+\title{Face Liveness Detection}
 %
 %
 % author names and IEEE memberships
@@ -487,7 +487,7 @@ Face recognition, liveness detection, spoof attacks.
 
 \section{Introduction}
 
-The general public has a great need for security measures against spoof attacks. Biometrics is the fastest growing segment of such security industry. Some familiar techniques for identifacation are facial recognition, fingerprint recognition, handwriting verification, hand geometry, retina and iris scanners. Among these techniques, face recognition technology is more direct, user-friendly and convenient compared to other methods. Therefore, it has been applied to various security systems. However, in general, face recognition algorithms cannot distinguish between “live” faces and “non-live” faces, which is a major security issue. It is an easy way to spoof face recognition systems by facial pictures such as portrait photographs. To guard against such spoofing, a security system needs liveness detection.
+ \IEEEPARstart{T}{he} general public has a great need for security measures against spoof attacks. Biometrics is the fastest growing segment of such security industry. Some familiar techniques for identifacation are facial recognition, fingerprint recognition, handwriting verification, hand geometry, retina and iris scanners. Among these techniques, face recognition technology is more direct, user-friendly and convenient compared to other methods. Therefore, it has been applied to various security systems. However, in general, face recognition algorithms cannot distinguish between “live” faces and “non-live” faces, which is a major security issue. It is an easy way to spoof face recognition systems by facial pictures such as portrait photographs. To guard against such spoofing, a security system needs liveness detection.
 
 The main task of a security system is the verification of an individual's identity. The primary reason for this is to prevent impostors from accessing from accessing protected resources. Traditional techniques for security purposes are passwords, but this technique can easily be lost or may be stolen. With the help of physical and biological properties of human beings, a biometric system can offer more security for a security system.
 
@@ -599,7 +599,21 @@ Many approaches are implemented in Face Liveness Detection. In this section, som
 
 \subsection{Blinking based analysis}
 
-(Peng Shiqi)
+The eye-blinking based anti-spoofing technique was proposed by Lin Sun et. al. \cite{pan2007eyeblink} using Conditional Random Fields (CRFs). They develop a real-time liveness testing approach to resist photograph-spoofing in a non-intrusive manner for face recognition, which does not require any additional hardware except for a generic webcamera.
+
+In general, a human can distinguish a live face or a photograph without much effort, since a prominent characteristic of live face is the occurrence of the non-rigid deformation and appearance change, such as mouth motion and expression variation. Accurate and relieable detection of these changes usually needs either high-quality input data or user collaboration. In the previous work, Kollreider et. al. \cite{kollreider2005evaluating} applied optical flow to the input video to obtain the information of face motion for live ness judgement. Frischholz et. al. \cite{frischholz2003avoiding} introduced an interactive approach requiring user to act an obvious response of head movement. With additional hardware, the vein map of the face by near infrared imaging, face thermogram \cite{socolinsky2003face} also could be applied in to liveness detection. But these methods have some drawbacks in common. They require high data quality, additional hardware, or high user collaboration, which is difficult for anti-spoofing.
+
+Eyeblink is a physiological activity of rapid closing and opening of the eyelid. It is easy for the generic camera to capture two or more frames for each blink when the face looks into the camera. Hence, it is feasible to adopt eyeblink as a clue for anti-spoofing. The advantages of eyeblink based approach lie in: 1) it can complete in a non-intrusive manner, generally without user collaboration, 2) no extra hardware is required, 3) the eyeblink behavior is the prominently distinguishing character of a live face from a facial photo, which would be very helpful for liveness detection only from a generic camera.
+
+The eyeblink behavior could be represented as a temporal image sequence after being digitally captured by the camera. Viola's cascaded Adaboost approach \cite{viola2001rapid} is a typical method to detect blink to classify each image in the sequence independently as one state of either closed eye or opened eye. But this method assumes all of the images in the temporal sequence are independent, missing the temporal information. To relax the independence assumption, an HMM (Hidden Markov Model) \cite{rabiner1989tutorial} models a sequence of observations by assuming that there is an underlying sequence of states drawn from a finite state set. Features of images can be regarded as the observations, and the eye state label is for the underlying states. HMM assumes that each state depends only on its immediate predecessor, and that each observation variable depends only on the current state, depicted in Fig. \ref{fig_D_1}. But for the task of eyeblink recognition, the two independence assumptions are too restrictive. Based on these facts, \cite{pan2007eyeblink} model eyeblink behaviors in an undirected Conditional Random Field framework, incorporated with a discriminative measure of eye states for simplifying the complex of inference and simultaneously improving the performance.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\linewidth]{img/D_1}
+\caption{Graphical structure illustration of Hidden Markov Model.}
+\label{fig_D_1}
+\end{figure}
+
 
 \subsection{Video based analysis}
 
