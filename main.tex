@@ -66,6 +66,7 @@
 \documentclass[journal]{IEEEtran}
 \usepackage{blindtext}
 \usepackage{graphicx}
+\usepackage{booktabs}
 
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
@@ -163,7 +164,8 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage[cmex10]{amsmath}
+\usepackage[cmex10]{amsmath}
+\usepackage{amssymb}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics. If using
 % it, be sure to load this package with the cmex10 option to ensure that
@@ -646,6 +648,99 @@ The eyeblink behavior could be represented as a temporal image sequence after be
 \label{fig_D_1}
 \end{figure}
 
+An eyeblink activity can be represented by an image sequence $\mathbb{S}$ consisting of $T$ images. Suppose that $\mathbb{S}$ is a random variable over observation sequences to be labeled, and $Y$ is a random variable over the corresponding label sequences to be predicted, components $y_i$ of $Y$ are assumed to range over a finite label set $\mathcal{Q}$. Let $G=(V,E)$ be a graph and $Y$ is indexed by the vertices of $G$. Then $(Y, \mathbb{S})$ is called a \textit{conditional random field (CRF)} \cite{lafferty2001conditional}.
+
+Lin Sun et. al. \cite{pan2007eyeblink} yield a linear chain structure, shown in Fig. \ref{fig_D_2}. In this graphic model, observation window size $W$ is introduced to describe the conditional relationship between the current state and $(2W+1)$ temporal observations around the current one. It introduces the long-range dependencies in the model. Using the Hammersley and Clifford theorem \cite{li2009markov}, the joint distribution over the label sequence $Y$ given the observation $\mathbb{S}$ can be written as:
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.95\linewidth]{img/D_2}
+\caption{Graphical model of a linear-chain CRF, where the circles are variable nodes and the black boxes are factor nodes, in this example the state is conditioned on contexts of 3 neighboring observations, that is, $W=1$.}
+\label{fig_D_2}
+\end{figure}
+
+\begin{equation}
+\label{eq_D_1}
+p_\theta(Y|\mathbb{S}) = \frac{1}{Z_\theta(\mathbb{S})} \exp (\sum_{t=1}^T \Psi_\theta(y_t,y_{t-1},\mathbb{S}))
+\end{equation}
+where $Z_\theta(\mathbb{S})$ is a normalized factor summing over all state sequences,
+\begin{equation}
+\label{eq_D_2}
+Z_\theta(\mathbb{S}) = \sum_Y \exp (\sum_{t=1}^T \Psi_\theta(y_t,y_{t-1},\mathbb{S}))
+\end{equation}
+
+The potential function $\Psi_\theta(y_t,y_{t-1},\mathbb{S})$ is the sum of CRF features at time $t$:
+\begin{equation}
+\label{eq_D_3}
+\Psi_\theta(y_t,y_{t-1},\mathbb{S}) = \sum_i \lambda_i f_i(y_t,y_{t-1},\mathbb{S}) + \sum_j \mu_j g_j(y_t,\mathbb{S})
+\end{equation}
+
+$f_i$ and $g_j$ are \textit{within-label} and \textit{between-observation-label} feature functions, respectively. $\lambda_i$ and $\mu_j$ are the feature weights associated with $f_i$ and $g_j$. $f_i$ and $g_j$ are defined as:
+\begin{equation}
+\label{eq_D_4}
+f_i(y_t,y_{t-1},\mathbb{S}) = \mathbf{1}_{\{y_t=l\}} \mathbf{1}_{\{y_{t-1}=l'\}}
+\end{equation}
+\begin{equation}
+\label{eq_D_5}
+g_j(y_t,\mathbb{S}) = \mathbf{1}_{\{y_t=l\}} \mathcal{U}(I_{t-w})
+\end{equation}
+where $l, l' \in \mathcal{Q}, w\in[-W,W]$, $\mathcal{U}(\cdot)$ is the eye closity. Eye closity is a real-value discriminative feature, which is motivated by the idea of the adaptive boosting algorithm \cite{freund1997decision}, for the eye image measuring the degree of eye's closity. Defined as:
+\begin{equation}
+\label{eq_D_6}
+\mathcal{U}_M(I) = \sum_{i=1}^M (\log \frac{1}{\beta_1}) h_i(I) - \frac{1}{2} \sum_{i=1}^M \log \frac{1}{\beta_i}
+\end{equation}
+
+Parameter estimation of $\theta=\{\lambda_1,\dots,\lambda_A,\mu_1,\dots,\mu_B\}$ is typically performed by MLE. Given a labeled training set $\{Y^{(i)}, \mathbb{S}^{(i)}\}_{i=1,\dots,N}$, the conditional log likelihood is:
+\begin{equation}
+\label{eq_D_7}
+\begin{aligned}
+L_\theta &= \sum_{i=1}^N \log (p_\theta(Y^{(i)}|\mathbb{S}^{(i)})) \\
+&= \sum_{i=1}^N (\sum_{t=1}^T \Psi_\theta(y_t^{(i)},y_{t-1}^{(i)},\mathbb{S}^{(i)}) - \log Z_\theta(\mathbb{S}^{(i)}))
+\end{aligned}
+\end{equation}
+Because $L_\theta$ is concave, every local optimum is also a global optimum. Finally, the optimization problem is solved by a limited-memory version of BFGS \cite{sha2003shallow}, a kind of quasi-Newton methods.
+
+The inference tasks to label an unknown instance $Y^* = \arg \max_Y p(Y|\mathbb{S})$ can be performed efficiently and exactly by variants of the standard dynamic programming methods for HMM \cite{rabiner1989tutorial}.
+
+To evaluate this approach, Lin Sun et. al. \cite{pan2007eyeblink} built a publicly available blinking video database. Using this blinking database, the CRF-based blinking detecction is compared with cascaded Adaboost and HMM approaches. The detection rate is shown in Tab. \ref{tab_D_1} and Tab. \ref{tab_D_2}.
+
+\begin{table}[!htbp]
+\centering
+\caption{One-eye detection rate compared with the cascaded Adaboost and HMM.}
+\label{tab_D_1}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Data} & Cascaded AdaBoost & HMM &  CRF(W=2) \\
+\midrule
+\textbf{Frontal w/o glasses} & 96.5\% & 69.6\% & 93.8\% \\
+\textbf{Frontal w/ thin rim glasses} & 60.0\% & 43.9\% & 85.6\% \\
+\textbf{Frontal w/ black frame glasses} & 46.9\% & 42.5\% & 82.1\% \\
+\textbf{Upward w/o glasses} & 96.5\% & 45.5\% & 82.6\% \\
+\midrule
+\textbf{Average} & 64.0\% & 49.6\% & 86.9\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Two-eye detection rate compared with the cascaded Adaboost and HMM.}
+\label{tab_D_2}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Data} & Cascaded AdaBoost & HMM &  CRF(W=2) \\
+\midrule
+\textbf{Frontal w/o glasses} & 98.2\% & 80.4\% & 98.2\% \\
+\textbf{Frontal w/ thin rim glasses} & 80.0\% & 60.6\% & 93.9\% \\
+\textbf{Frontal w/ black frame glasses} & 71.9\% & 55.2\% & 89.6\% \\
+\textbf{Upward w/o glasses} & 62.3\% & 59.1\% & 92.4\% \\
+\midrule
+\textbf{Average} & 78.1\% & 63.4\% & 93.7\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The comparison results show that the CRF approach outperforms the others. However, blinking-based liveness detection has some limitations. It would be affected by strong glasses reflection, which may cover eyes partially or totally.
 
 \subsection{Video based analysis}
 
