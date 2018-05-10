@@ -750,6 +750,11 @@ The comparison results show that the CRF approach outperforms the others. Howeve
 
 (Hu Yue and He Zhuoxun)
 
+Most of the previous work focus on solving the attack of 2D fake masks, however, with development of 3D reconstruction and printing technologies, the primary assumption can no longer be maintained. Nesli Erdogmus and Sebastien Marcel extended their previous work \cite{erdogmus2013spoofing} on 2D mask attacks into 3D. In \cite{erdogmus2014spoofing} they provided a baseline study on the reported papers on the vulnerabilities to 3D mask attacks that is open-source and available for the research community to reuse. Besides, they provided new baselines which had better performance than original state-of-art baseline on 2D, 2.5D and 3D scenarios. And reporting comparative experimental results on two databases which will act as the missing link between the previous studies that have been done on Morpho database and the future studies that will be based on 3D Mask Attack Database (3DMAD) which is the first public spoofing database with facial masks.
+
+In Fig. \ref{fig_3D_1}-a, there are some examples of grayscale texture (2D), depth map (2.5D) and 3D model format from left to right. And the top row is the real user while the bottom ones are a attacker wearing masks. In Fig. \ref{fig_3D_1}-(b-c), there are some real masks from websites.
+
+They conducted two types of experiments. One is the face verification where the success rates of spoofing attacks with 3D masks are assessed using baseline face recognition algorithms. The results revealed their vulnerabilities to 3D facial mask attacks. The other one is anti-spoofing experiments in which mask attack/real face classification accuracy of aforementioned counter measure methods are measured. The parallel evaluations of Local Binary Pattern (LBP) \cite{kose2013countermeasure} based anti-spoofing methods on Morpho and 3DMAD databases made it possible to associate previously published results on the Morpho database with their current work and with possible future studies on 3DMAD. But their work considered different types of attacks separately, it is not what happened in reality. So constructing a robust system which can deal with different spoofing attacks scenario may be worth researching in the future. 
 
 
 
