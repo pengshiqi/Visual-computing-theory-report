@@ -402,7 +402,7 @@
 % was not built to handle multiple paragraphs
 %
 
-\author{Shiqi~Peng, Xiaoyang~Huo, Chen~Zuo, Bolin~Lai, Zhuoxun~He, Yue~Hu, Qiuying~Zhang, Qiaoyu~Lu, Ziyang~Zheng, Jinxiang~Liu, Qinwei~Xu, Chen~Ju% <-this % stops a space 
+\author{Shiqi~Peng, Xiaoyang~Huo, Chen~Zuo, Bolin~Lai, Zhuoxun~He, Yue~Hu, Qiuying~Zhang, Qiaoyu~Lu, Ziyang~Zheng, Jinxiang~Liu, Qinwei~Xu, Chen~Ju% <-this % stops a space
 \thanks{All the authors are with the Department
 of Electronic Engineering, Shanghai Jiao Tong University.}}
 
@@ -586,7 +586,7 @@ The remainder of this paper is organized as following. In section \uppercase\exp
 
 \section{Literature}
 
-Many approaches are implemented in Face Liveness Detection. In this section, some of the most interesting liveness detection methods are presented. 
+Many approaches are implemented in Face Liveness Detection. In this section, some of the most interesting liveness detection methods are presented.
 
 \subsection{Frequency and Texture based analysis}
 
@@ -610,7 +610,7 @@ The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale inv
 \label{results_of_LBP}
 \end{figure}
 
-After computing LBP of given images, we can construct a classifier based on the feature map, such as neural network and SVM. The authors just use SVM to classify them in \cite{chingovska2012effectiveness}\cite{maatta2011face}. In order to get rid of dimensions of the feature, they compute histogram of each LBP feature map and use it as input to SVM. The structure is shown in Fig. \ref{lbp_based_approach}. The authors implement LBP on the whole image and on each block separately. These features are modeled by histograms and SVM. 
+After computing LBP of given images, we can construct a classifier based on the feature map, such as neural network and SVM. The authors just use SVM to classify them in \cite{chingovska2012effectiveness}\cite{maatta2011face}. In order to get rid of dimensions of the feature, they compute histogram of each LBP feature map and use it as input to SVM. The structure is shown in Fig. \ref{lbp_based_approach}. The authors implement LBP on the whole image and on each block separately. These features are modeled by histograms and SVM.
 
 \begin{figure*}[htbp]
 \centering
@@ -628,13 +628,32 @@ After computing LBP of given images, we can construct a classifier based on the 
 
 (Zhang Qiuying and Lu Qiaoyu)
 
+Face spoof detection methods based on image quality analysis use image quality measures as features to determine whether a face is genuine or not.
+
+In 2015, Di Wen et. al.\cite{wen2015face} proposed a face spoof detection method with image distortion analysis(IDA) to deal with 2D face mask attacks, such as printed photo and replayed video attacks, with real-time response(extracted from a single image with efficient computation). Instead of extracting features that capture the facial details, this method tries to capture the face image quality differences due to the different reflection properties of different materials, eg., facial skin, paper, and screen. And this method aims to improve the generalization ability under cross-database(different databases for training and testing) scenarios, which has seldom been explored in the biometrics community.
+
+This method designed four discriminative features based on IDA that are capable of differentiating between genuine and spoof faces based on a single frame. Given a scenario where a genuine face or a spoof face (such as a printed photo or replayed video on a screen) is presented to a camera in the same imaging environment, the main difference between genuine and spoof face images is due to the “shape” and characteristics of the facial surface in front of the camera. According to the Dichromatic Reflection Model\cite{Shafer1992Using}, light reflectance $I$ of an object at a specific location $x$ can be composed into the following diffuse reflection $(I_d)$ and specular reflection $(I_s)$ components:
+\begin{equation}
+I(x)=I_d+I_s
+\end{equation}
+
+Since 2D spoof faces are recaptured from original genuine face images, so the distortion of a spoof faces consists of two parts: distortion in the diffuse reflection and distortion in the specular reflection, both of which are related to the spoofing medium. Besides the above distortions in the reflecting process, there is also distortion introduced by the capturing process. Although the capturing distortion can apply to both genuine and spoof faces. The spoof faces are more vulnerable to such distortion because they are usually captured in close distance to conceal the discontinuity of spoof medium frame.
+
+Based on the above analysis, the major distortions in a spoof face image include: (1) specular reflection from the printed paper surface or LCD screen; (2) image blurriness due to camera defocus; (3) image chromaticity and contrast distortion due to imperfect color rendering of printer or LCD screen; and (4) color diversity distortion due to limited color resolution of printer or LCD screen.
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=0.95\textwidth]{img/IDA_system.PNG}
+\caption{The spoof detection algorithm based on Image Distortion Analysis.}
+\label{lda_system}
+\end{figure*}
 \subsection{Optical Flow based analysis}
 
 In light of differences in optical flow fields generated by movements of two-dimensional planes and three-dimensional objects, the paper \cite{Bao2009A} proposed a new liveness detection method for face recognition. Under the assumption that the test region is a two-dimensional plane, we can obtain a reference field from the actual optical flow field data. Then the degree of difference between the two fields can be used to distinguish between a three-dimensional face and a two-dimensional photograph.
 
 Optical flow is the instantaneous speed of a moving spatial object's pixel movements on the projection plane. The research of optical flow is to use the timr-domain change and correlation of pixel intensity in image sequences to study the relationship between the intensity change by time and the object's structure and movement in the scene. The instantaneous change rate of intensity on specific point in projection plane is defiend as optical flow field, which contains information of instantaneous velocity vector of each pixel \cite{Barron1994Performance}.
 
-The relative motion between a two-dimensional plane and observer can be divided into four basic types: translation, rotation, moving forward or backward and swing. The four motion types can generate different optical flow field, which is shown in Fig \ref{fig_C_1}. 
+The relative motion between a two-dimensional plane and observer can be divided into four basic types: translation, rotation, moving forward or backward and swing. The four motion types can generate different optical flow field, which is shown in Fig \ref{fig_C_1}.
 
 \begin{figure}[!t]
 \centering
@@ -675,7 +694,7 @@ D = \frac{\sum\limits_{i=1}^m\sum\limits_{j=1}^n\sqrt{(a_1i + b_1j + c_1 - U_{ij
 
 The greater D is, the more likely it is a real face. Set a threshold T, when $D > T$ we conclude that it is a real face, otherwise it needs more detection.
 
-The experiment was conducted on 3 groups of sample data. For the first group, they randomly translated, rotated and turned 100 face pictures in front of the camera. For the second group,  they folded and curled the pictures before shown to the camera, to make their surfaces not completely smooth. The third group was a real face experiment. As is shown in the Fig \ref{fig_C_2}, the greater T is, the higher the ratio of successful detection is. 
+The experiment was conducted on 3 groups of sample data. For the first group, they randomly translated, rotated and turned 100 face pictures in front of the camera. For the second group,  they folded and curled the pictures before shown to the camera, to make their surfaces not completely smooth. The third group was a real face experiment. As is shown in the Fig \ref{fig_C_2}, the greater T is, the higher the ratio of successful detection is.
 
 By analyzing the optical flow field to detect real face, the liveness detection face recognition method proposed in the paper showed good performance in experiment. However, this method relies on the precise calculation of the optical flow field, so illumination change will have an impact on the result. In addition, this method is working under the assumption that the fake face is on a plane. It won't work on the three-dimensional face model or some seriously bended or folded face images. So in practice, it should be combined with other liveness detection methods to increase the rate of successful detection.
 
@@ -809,7 +828,7 @@ Most of the previous work focus on solving the attack of 2D fake masks, however,
 
 In Fig. \ref{fig_3D_1}-a, there are some examples of grayscale texture (2D), depth map (2.5D) and 3D model format from left to right. And the top row is the real user while the bottom ones are a attacker wearing masks. In Fig. \ref{fig_3D_1}-(b-c), there are some real masks from websites.
 
-They conducted two types of experiments. One is the face verification where the success rates of spoofing attacks with 3D masks are assessed using baseline face recognition algorithms. The results revealed their vulnerabilities to 3D facial mask attacks. The other one is anti-spoofing experiments in which mask attack/real face classification accuracy of aforementioned counter measure methods are measured. The parallel evaluations of Local Binary Pattern (LBP) \cite{kose2013countermeasure} based anti-spoofing methods on Morpho and 3DMAD databases made it possible to associate previously published results on the Morpho database with their current work and with possible future studies on 3DMAD. But their work considered different types of attacks separately, it is not what happened in reality. So constructing a robust system which can deal with different spoofing attacks scenario may be worth researching in the future. 
+They conducted two types of experiments. One is the face verification where the success rates of spoofing attacks with 3D masks are assessed using baseline face recognition algorithms. The results revealed their vulnerabilities to 3D facial mask attacks. The other one is anti-spoofing experiments in which mask attack/real face classification accuracy of aforementioned counter measure methods are measured. The parallel evaluations of Local Binary Pattern (LBP) \cite{kose2013countermeasure} based anti-spoofing methods on Morpho and 3DMAD databases made it possible to associate previously published results on the Morpho database with their current work and with possible future studies on 3DMAD. But their work considered different types of attacks separately, it is not what happened in reality. So constructing a robust system which can deal with different spoofing attacks scenario may be worth researching in the future.
 
 
 \begin{figure}[!t]
@@ -827,7 +846,7 @@ Here, liveness detection approaches are categorized based on the type of livenes
 
 \section{Conclusion}
 
-This work provided an overview of different approaches of face liveness detection. 
+This work provided an overview of different approaches of face liveness detection.
 
 
 
