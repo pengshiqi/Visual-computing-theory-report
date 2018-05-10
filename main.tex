@@ -632,7 +632,7 @@ Face spoof detection methods based on image quality analysis use image quality m
 
 In 2015, Di Wen et. al.\cite{wen2015face} proposed a face spoof detection method with image distortion analysis(IDA) to deal with 2D face mask attacks, such as printed photo and replayed video attacks, with real-time response(extracted from a single image with efficient computation). Instead of extracting features that capture the facial details, this method tries to capture the face image quality differences due to the different reflection properties of different materials, eg., facial skin, paper, and screen. And this method aims to improve the generalization ability under cross-database(different databases for training and testing) scenarios, which has seldom been explored in the biometrics community.
 
-This method designed four discriminative features based on IDA that are capable of differentiating between genuine and spoof faces based on a single frame. Given a scenario where a genuine face or a spoof face (such as a printed photo or replayed video on a screen) is presented to a camera in the same imaging environment, the main difference between genuine and spoof face images is due to the “shape” and characteristics of the facial surface in front of the camera. According to the Dichromatic Reflection Model\cite{Shafer1992Using}, light reflectance $I$ of an object at a specific location $x$ can be composed into the following diffuse reflection $(I_d)$ and specular reflection $(I_s)$ components:
+This method designed four discriminative features based on IDA that are capable of differentiating between genuine and spoof faces based on a single frame. Given a scenario where a genuine face or a spoof face (such as a printed photo or replayed video on a screen) is presented to a camera in the same imaging environment, the main difference between genuine and spoof face images is due to the “shape” and characteristics of the facial surface in front of the camera. According to the Dichromatic Reflection Model\cite{shafer1985using}, light reflectance $I$ of an object at a specific location $x$ can be composed into the following diffuse reflection $(I_d)$ and specular reflection $(I_s)$ components:
 \begin{equation}
 I(x)=I_d+I_s
 \end{equation}
@@ -641,12 +641,44 @@ Since 2D spoof faces are recaptured from original genuine face images, so the di
 
 Based on the above analysis, the major distortions in a spoof face image include: (1) specular reflection from the printed paper surface or LCD screen; (2) image blurriness due to camera defocus; (3) image chromaticity and contrast distortion due to imperfect color rendering of printer or LCD screen; and (4) color diversity distortion due to limited color resolution of printer or LCD screen.
 
+The above four types of feature (specular reflection, blurriness, chromatic moment, and color diversity) are finally concatenated together, resulting in an IDA feature vector with 121 dimensions. Although the IDA feature vector is extracted from the facial region, it contains only image distortion information, and not any characterization of facial appearance. Therefore, we expect that the IDA feature can alleviate the problem of training bias encountered in the commonly used texture features.
+
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{img/IDA_system.PNG}
+\includegraphics[width=0.85\textwidth]{img/LDA_system.PNG}
 \caption{The spoof detection algorithm based on Image Distortion Analysis.}
 \label{lda_system}
 \end{figure*}
+Fig. \ref{lda_system} shows the system diagram of the proposed spoof detection algorithm based on IDA. The input face image is first aligned based on two eyes locations and normalized to $144\times 120$ pixels with an interpupillary distance (IPD) of 60 pixels. For face detection and eye localization, we use the PittPatt 5.2.2 SDK, which works successfully for about 99\% of the faces in the Idiap, CASIA, and MSU face spoof databases. Our experiments show that face alignment and cropped face size are very important for spoof detection because they significantly reduces the influences of facial and background variations that are irrelevant to spoof detection. For each normalized face image, four different IDA features are extracted, constituting a 121-dimensional feature vector. This feature vector is then fed into multiple SVM classifiers, each trained on a different group of spoof training samples (e.g., printed photo attack and replayed video attack). The classifier outputs are fused to give the final binary decision (ensemble classification): genuine or spoof face.
+
+As for classification method, the author propose to use an ensemble classifier scheme by training multiple constituent spoof classifiers in different groups of spoof attack samples. For a specific spoof database, we construct separate groups of training samples as follows: First, the spoof samples are divided into $K$ groups according to the attack type. Second, a specific training set is constructed by combining all genuine samples and a single group of spoof samples, resulting in $K$ training sets. In our experiments, we find that by training two constituent classifiers ($K = 2$) on two groups of spoof attacks separately, i.e., printed attack and replay attack, the ensemble classifier performs better than training a single classifier on the whole database. In the testing stage, the input feature vector is fed to all constituent classifiers and their outputs are fused to get the final result. We have evaluated two types of score-level fusion
+schemes: sum and min rules \cite{jain2005score}. In most cases, the min rule performs better and so it is used in all our experiments below.
+
+Given the face spoof detection classifier working on a single image, a multi-frame fusion scheme is proposed to achieve a more stable face spoof detection performance for a video. The classification results from individual frames are combined by a voting scheme to obtain the spoof detection score for a video. A face video is determined to be genuine if over 50\% of its frames are classified as genuine face images.
+
+The experiment was conducted on three databases: Idiap REPLAY-ATTACK, CASIA FASD (H protocol), and MSU MFSD collected by Di Wen et. al. using both intra-database and cross-database protocols and three different types of spoof detection feature vectors: LBP features (as used in \cite{maatta2011face}), DoG-LBP features (as used in \cite{kose2012classification}), and IDA features are evaluated. The numbers of genuine and spoof faces used in our experiments are detailed in Tab. III.
+\subsubsection{Intra-database Spoof Detection}
+This experiment is to compare the intra-database performance of the proposed method with the baseline
+methods and state-of-the-art methods on three databases: Idiap, CASIA (H protocol), and the MSU database.
+Results in Fig.\ref{lda_intra}.
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{img/LDA_intra.PNG}
+\caption{Comparison of intra-database performance on the IDIAP, CASIA and MSU databases.}
+\label{lda_intra}
+\end{figure*}
+\subsubsection{Cross-database Spoof Detection}
+Besides the intra-database performance, we are more interested in the cross-database performance of different face spoof detection methods. Results in Fig.\ref{lda_cross}.
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{img/LDA_cross.PNG}
+\caption{Comparison of cross-database performance of different methods.}
+\label{lda_cross}
+\end{figure*}
+\subsubsection{Intra-database vs. Cross-database}
+Given the above experimental results, we can further compare the cross-database performance with intra-database performance of the same method. Table VI shows that the proposed method performs much better than the LBP+SVM and DoG-LBP+SVM methods in its generalization ability.
+
+In conclusion, the experiment results show that the proposed approach performs better than the state-of-the-art methods in intra-database testing scenario and significantly outperforms the baseline methods in cross-database scenario.
 \subsection{Optical Flow based analysis}
 
 In light of differences in optical flow fields generated by movements of two-dimensional planes and three-dimensional objects, the paper \cite{Bao2009A} proposed a new liveness detection method for face recognition. Under the assumption that the test region is a two-dimensional plane, we can obtain a reference field from the actual optical flow field data. Then the degree of difference between the two fields can be used to distinguish between a three-dimensional face and a two-dimensional photograph.
