@@ -10,7 +10,7 @@ Group report for course **Visual computing theory and engineering applications**
 - [ ] Lai Bolin
 - [ ] Huo Xiaoyang
 - [ ] Zhang Qiuying
-- [ ] Hu Yue
+- [x] Hu Yue
 - [ ] He Zhuoxun
 - [ ] Zuo Chen
 - [ ] Lu Qiaoyu
