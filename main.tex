@@ -594,7 +594,7 @@ Many approaches are implemented in Face Liveness Detection. In this section, som
 
 This approach is basic in Face Liveness Detection. The basic motivation is separating live face from fake face based on some details, such as the texture. Some works use spectrum of face. Live face and fake face may be different in frequency domain, or we can use the low frequency information and high frequency information separately to build a better classifier. In addition, there are several algorithms based on Local Binary Pattern (LBP) to analyse the textures on the given facial image \cite{chingovska2012effectiveness}\cite{maatta2011face}. We can understand this method in a more intuitive way: The live face is a 3D model and this means different parts reflect light differently. A photograph, however, is a platform. It reflects light like a mirror. The different ways of reflection cause the gap between live face and fake face in the texture or frequency. In the experiments, LBP performs well in capture of face texture.
 
-The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale invariant texture measure, derived from a general definition of texture in a local neighborhood. For each pixel, we compare its value with pixels arround it as shown in Fig. \ref{LBP}. The pixel larger than center is denoted as 1 and the one smaller than center is denoted as 0. Then we obtain a sequence of 1 and 0 clockwise or counterclockwise which describes texture information of an image. Finally, we convert the binary sequence to a decimal number. Fig. \ref{results_of_LBP} describes the results of LBP. Three raw images of one girl are under different illuminations. Feature maps obtained by LBP, however, seem similar. It's obvious that these feature maps capture the contour of eyes and nose。
+The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale invariant texture measure, derived from a general definition of texture in a local neighborhood. For each pixel, we compare its value with pixels arround it as shown in Fig. \ref{LBP}. The pixel larger than center is denoted as 1 and the one smaller than center is denoted as 0. Then we obtain a sequence of 1 and 0 clockwise or counterclockwise which describes texture information of an image. Finally, we convert the binary sequence to a decimal number. Fig. \ref{results_of_LBP} describes the results of LBP. Three raw images of one girl are under different illuminations. Feature maps obtained by LBP, however, seem similar. It's obvious that these feature maps capture the contour of eyes and nose.
 
 \begin{figure}[!t]
 \centering
@@ -815,7 +815,7 @@ They conducted two types of experiments. One is the face verification where the 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=1\linewidth]{img/3D_1}
-\caption{(a) The top row shows a real access from a user in grayscale texture (2D), depth map (2.5D) and 3D model format while an attacker wearing the same user¡¯s mask is displayed in the bottom (b-c) Facial masks obtained from ThatsMyFace.com}
+\caption{(a) The top row shows a real access from a user in grayscale texture (2D), depth map (2.5D) and 3D model format while an attacker wearing the same user's mask is displayed in the bottom (b-c) Facial masks obtained from ThatsMyFace.com}
 \label{fig_3D_1}
 \end{figure}
 
