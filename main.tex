@@ -621,7 +621,53 @@ After computing LBP of given images, we can construct a classifier based on the 
 
 \bigskip
 
-\textbf{(Experiment Results and Simple Analysis...)}
+The author carried out experiments on the publicly available NUAA Photograph Imposter Database\cite{tan2010face} which includes both photo attacks and real faces of 15 subjects. The spoofing attacks were documented by a video camera at 20fps. Each subject has been recorded 500 images. Then they minimize the movements of the live subjects and add little motions to different vivid photo attacks. The images of 15 subjects are  in 3 sessions, the first two sessions compose the training set and the last session is set for test part. Fig. \ref{Example of real faces and photos}. 
+
+They evaluate the performance of LBP, Local Phase Quantization (LPQ) and Gabor wavelets. They apply the whole facial area to the three powerful operators without block division. Then, the features are fed to SVM classifier. LibSVM Library is used for SVM implementation in all experiments. The performance are shown in Fig. \ref{ROC}. of the three operators in terms of Receiver Operating Characteristic (ROC) curves. From the results, we get to know that the three descriptors all performed quite well. The equal error rates (EER), shown in Table \ref{tab.a.1.result}, indicate that LBP (EER= 2.9\%) and LPQ (EER= 4.6\%) performed similarly, outperforming Gabor wavelets (EER= 9.5\%). One major difference between fake faces and the real ones is that 2D prints always contain specular reflections. Their method was able to achieve the perfect spoofing detection in that period, reaching total classification accuracy of 98.0\%, false rejection rate of 4.4\% and false acceptance rate of 0.6\%\cite{maatta2011face}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{img/2-A-5.png}
+\caption{Example of images captured from real faces ( upper row) and from printed photos (lower row). }
+\label{Example of real faces and photos}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{img/2-A-6.png}
+\caption{Performance (ROC curves) of three operators (LBP, LPQ and Gabor) in distinguishing live face images from fake ones.}
+\label{ROC}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{img/2-A-7.png}
+\caption{Performance analysis on the importance of using multi-scale LBP, overlapping blocks, and feature computation from the whole images.}
+\label{multiscale}
+\end{figure}
+
+The fine differences used for detecting fake faces might be ignored if only a single LBP histogram of the face is used. Therefore, the author proposed multi-scale LBP and computes features from $3\times
+3$ overlapping regions to capture the local information meanwhile enhances the general description by including global LBP histograms. The author set a series of experiments to evaluate the impact of their proposed method and the results are shown in Fig. \ref{multiscale}.
+
+We can notice that the block processing algorithm significantly improves the performance of lower false acceptance rates from 54.0\% to 89.0\% at 0.2\% FAR using overlapping regions. What’s more, the combination of holistic and spatial representations achieves better results, e.g. 91.2\% at 0.2\% \cite{maatta2011face} FAR using the fusion of overlapping regions and multi-scale LBP on the whole face area.
+
+In conclusion, inspired by the different specular reflections and shades of fake faces and the real ones, the author proposed a powerful methodology base on emphasizing the details on micro-texture patterns. They came up with a multi-scale local binary patterns (LBP) to catch both holistic and local information. Then fed the result to a support vector machine classification. The output shows their approach is robust and fast and doesn’t need users’ cooperation. But whether this methodology is suitable for 3D models still need further study.
+
+\begin{table}[!htbp]
+\centering
+\caption{Performance (EER)of three texture operators \cite{maatta2011face}.}
+\label{tab.a.1.result}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Descriptor} & LBP & LPQ & Gabor \\
+\midrule
+\textbf{Error Equal Rate(EER)} & 2.9\% & 4.6\% & 9.5\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
 
 
 \subsection{Image Quality based analysis}
@@ -730,7 +776,7 @@ Experiments were conducted on database CASIA \cite{zhang2012face} and results an
 In conclusion, the main novelty of this work lies in two manifolds:
 \begin{enumerate}
 \item The classifiers are adaptively learned, which have a good adaptation ability to the dynamic capturing environments.
-\item  The IQA features regarding the face quality are used to train these classifiers based on the clustered training samples. 
+\item  The IQA features regarding the face quality are used to train these classifiers based on the clustered training samples.
 \end{enumerate}
 The main drawback is the chosen quality relevant features need improving in robustness. Or some other features can be considered to enhance the total performance.
 
