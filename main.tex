@@ -626,8 +626,6 @@ After computing LBP of given images, we can construct a classifier based on the 
 
 \subsection{Image Quality based analysis}
 
-(Zhang Qiuying and Lu Qiaoyu)
-
 Face spoof detection methods based on image quality analysis use image quality measures as features to determine whether a face is genuine or not.
 
 In 2015, Di Wen et. al.\cite{wen2015face} proposed a face spoof detection method with image distortion analysis(IDA) to deal with 2D face mask attacks, such as printed photo and replayed video attacks. Instead of extracting features that capture the facial details, this method tries to capture the face image quality differences due to the different reflection properties of different materials, eg., facial skin, paper, and screen. And this method aims to improve the generalization ability under cross-database(different databases for training and testing) scenarios, which has seldom been explored in the biometrics community.
@@ -690,30 +688,67 @@ The results in Tab.\ref{IDA_results} shows that IDA features performs better tha
 \end{tabular}
 \end{table}
 
-Noted that image quality strongly depends on the properties of the capturing devices and conditions, .... Considering this scenario, \cite{li2016face} tackled this .... The basic framework proposed is shown as in Fig. \ref{fig.b.2.fram}.
-
+On the other hand, the image quality strongly depends on the properties of the capturing devices and conditions, which means in some cases, due to the limitations of capturing devices, even a real acquired image would be marked as low quality. Considering this scenario, in 2016, \cite{li2016face} tackled this problem by transferring their task to learn a specific classifier depending on the quality of the input face, which is based on a two-stage learning approach. Firstly, the training samples are manually clustered based on the prior knowledge of face sample quality (e.g. camera model), and multiple quality guided classifiers are trained based on each cluster with extracted image quality assessment (IQA) feature. Subsequently, a regression function is learned by mapping from the IQA scores to the corresponding classifier’s parameters, which can be further used for classification. As such, given a new face input for verification, we can predict its classifier’s coefficients based on the pre-learned regression model, with which spoofing detection can be effectively achieved. The basic framework proposed is shown as in Fig. \ref{fig.b.2.fram}.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3in]{img/2-B-2-(1).png}
-\caption{Proposed Framework \cite{li2016face}}
+\caption{Proposed Framework in \cite{li2016face}}
 \label{fig.b.2.fram}
 \end{figure}
 
+The quality feature used in this work is image quality assessment (IQA) feature, the general role of which is monitoring the quality degradation, providing benchmark and optimizing the algorithms of image processing systems \cite{wang2016guided}\cite{wang2012ssim}\cite{lin2011perceptual}\cite{wang2004image}. Following \cite{galbally2014image}, 20 FR, 1 RR and 4 NR quality metrics are adopted (Details can be accessed in Table \ref{tab.b.2.metric}). Generally speaking, there are three advantages of the adopted algorithms \cite{galbally2014image}. Firstly, these algorithms exhibit close correlations with the perceived quality. Secondly, the selected algorithms have complementary properties that reflect the image quality from different perspectives. Finally, these adopted algorithms are fast to compute, such that real time classification can be achieved.
+\begin{table*}[htbp]
+\centering
+\caption{Adopted Image Quality Assessment Metrics \cite{galbally2014image}}
+\label{tab.b.2.metric}
+\scalebox{0.65}[0.65]{
+\begin{tabular}{cccccccccc}
+\toprule
+IQA Type & IQA Metric & IQA Type & IQA Metric & IQA Type & IQA Metric & IQA Type & IQA Metric & IQA Type & IQA Metric \\
+\midrule
+FR & Mean Squared Error & FR & Average Difference & FR & Mean Angle Similarity & FR & Spectral Phase Error & RR & Reduced Ref. Entropic Difference \\
+FR & Peak Signal to Noise Ratio & FR & Normalized Absolute Error & FR & Mean Angle Magnitude Similarity & FR & Gradient Magnitude Error NR JPEG Quality Index \\
+FR & Singal to Noise Ratio & FR & R-Averaged MD & FR & Total Edge Difference & FR & Gradient Phase Error & NR & High-Low Frequence Index \\
+FR & Structural Content & FR & Laplacian MSE & FR & Total Corner Difference & FR & Structural Similarity Index & NR & Blind Image Quality Index \\
+FR & Maximum Difference & FR & Normalized Cross-Correlation & FR & Spectral Magnitude Error & FR & Visual Information Fidelity & NR & Naturalness Image Quality Estimator \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+The classifier coefficients prediction model imposes the Multioutput Support Vector Regression (M-SVR) proposed in \cite{tuia2011multioutput}, where the classifier coefficients $\mathbf{\Omega}'$ can be predicted by the following equation
+\begin{equation}
+    \mathbf{\Omega}' = \sum\limits_{i = 1} ^ N \mathbf{\Theta}_{\cdot i}k(\mathbf{x}_i,\mathbf{x}')
+\end{equation}
+where $k(\cdot,\cdot)$ is the kernel function which measures the similarity between pairs of input, $\mathbf{\Theta} \in \mathbb{R}^{N\times M}$ is the parameters for mapping function ($\mathbf{\Theta}_{\cdot i}$ indicates the elements of Θ in the i−th column, $\mathbf{\Theta}_{j\cdot}$ indicates the elements of Θ in the j−th row) which can be learned efficiently by minimizing the following objective function
+\begin{equation}
+    \min\limits_\mathbf{\Theta}\frac{1}{2}\sum\limits_{j=1}^M||\mathbf{\Theta}_{j\cdot}||^2+\lambda\sum\limits_{i=1}^NE(u_i)
+\end{equation}
+where $u$ is the regression error defined in \cite{tuia2011multioutput} and $E(\cdot)$ is the $\epsilon$-insensitive loss defined in \cite{tuia2011multioutput}.
+
+Experiments were conducted on database CASIA \cite{zhang2012face} and results and some comparisons are shown in Table \ref{tab.b.2.result}. The experimental results demonstrate the effectiveness of the proposed framework by training multiple classifiers based on camera model since spoofing distortion and camera model can both influence the quality score of a given image. Around 7\% improvement can be achieved when compared with the single classifier method \cite{galbally2014image}. However, It is also worth noting that the performance of the proposed scheme may not be competitive with the state-of-theart methods \cite{maatta2011face}\cite{wen2015face}. This is not surprising as the IQA features in the proposed method are totally based on the existing work. The authors acknowledged that they would propose more robust quality relevant features for face spoofing detection in their future work.
+
+In conclusion, the main novelty of this work lies in two manifolds:
+\begin{enumerate}
+\item The classifiers are adaptively learned, which have a good adaptation ability to the dynamic capturing environments.
+\item  The IQA features regarding the face quality are used to train these classifiers based on the clustered training samples. 
+\end{enumerate}
+The main drawback is the chosen quality relevant features need improving in robustness. Or some other features can be considered to enhance the total performance.
+
 \begin{table}[!htbp]
 \centering
-\caption{Results obtained on CASIA database under different scenario based on Equal Error Rate (EER)}
+\caption{Results obtained on CASIA database under different scenario based on Equal Error Rate (EER) \cite{li2016face}}
 \label{tab.b.2.result}
 \begin{tabular}{ccccc}
 \toprule
 & Low Quality & Mid Quality & High Quality & All \\
 \midrule
-\textbf{IQA} & 26.9\% & 24.0\% & 28.7\% & 41.6\%\\
+\textbf{IQA\cite{galbally2014image}} & 26.9\% & 24.0\% & 28.7\% & 41.6\%\\
 \textbf{nearest-neighbor} & $-$ & $-$ & $-$ & 44.9\% \\
 \textbf{IQA+Regression} & 25.7\% & 22.4\% & 25.3\% & 34.2\% \\
 \midrule
-\textbf{DoG} & 17.2\% & 24.5\% & 32.3\% & 30.6\% \\
-\textbf{MsLBP} & 15.5\% & 12.0\% & 16.3\% & 18.5\% \\
-\textbf{IQA} & $−$ & $−$ & 13.3\% (30 frms) & $−$ \\
+\textbf{DoG\cite{zhang2012face}} & 17.2\% & 24.5\% & 32.3\% & 30.6\% \\
+\textbf{MsLBP\cite{maatta2011face}} & 15.5\% & 12.0\% & 16.3\% & 18.5\% \\
+\textbf{IDA\cite{wen2015face}} & $−$ & $−$ & 13.3\% (30 frms) & $−$ \\
 \bottomrule
 \end{tabular}
 \end{table}
