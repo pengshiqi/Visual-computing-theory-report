@@ -7,14 +7,14 @@ Group report for course **Visual computing theory and engineering applications**
 **完成打卡** (完成自己的部分后请打钩)：
 
 - [x] Peng Shiqi
-- [ ] Lai Bolin
-- [ ] Huo Xiaoyang
-- [ ] Zhang Qiuying
+- [x] Lai Bolin
+- [x] Huo Xiaoyang
+- [x] Zhang Qiuying
 - [x] Hu Yue
-- [ ] He Zhuoxun
+- [x] He Zhuoxun
 - [ ] Zuo Chen
 - [ ] Lu Qiaoyu
-- [ ] Zheng Ziyang
+- [x] Zheng Ziyang
 - [ ] Liu Jinxiang
 - [ ] Xu Qinwei
 - [ ] Ju Chen

@@ -68,7 +68,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{subfigure}
-
+\usepackage{multirow}
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
 
@@ -594,7 +594,7 @@ Many approaches are implemented in Face Liveness Detection. In this section, som
 
 This approach is basic in Face Liveness Detection. The basic motivation is separating live face from fake face based on some details, such as the texture. Some works use spectrum of face. Live face and fake face may be different in frequency domain, or we can use the low frequency information and high frequency information separately to build a better classifier. In addition, there are several algorithms based on Local Binary Pattern (LBP) to analyse the textures on the given facial image \cite{chingovska2012effectiveness}\cite{maatta2011face}. We can understand this method in a more intuitive way: The live face is a 3D model and this means different parts reflect light differently. A photograph, however, is a platform. It reflects light like a mirror. The different ways of reflection cause the gap between live face and fake face in the texture or frequency. In the experiments, LBP performs well in capture of face texture.
 
-The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale invariant texture measure, derived from a general definition of texture in a local neighborhood. For each pixel, we compare its value with pixels arround it as shown in Fig. \ref{LBP}. The pixel larger than center is denoted as 1 and the one smaller than center is denoted as 0. Then we obtain a sequence of 1 and 0 clockwise or counterclockwise which describes texture information of an image. Finally, we convert the binary sequence to a decimal number. Fig. \ref{results_of_LBP} describes the results of LBP. Three raw images of one girl are under different illuminations. Feature maps obtained by LBP, however, seem similar. It's obvious that these feature maps capture the contour of eyes and nose。
+The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale invariant texture measure, derived from a general definition of texture in a local neighborhood. For each pixel, we compare its value with pixels arround it as shown in Fig. \ref{LBP}. The pixel larger than center is denoted as 1 and the one smaller than center is denoted as 0. Then we obtain a sequence of 1 and 0 clockwise or counterclockwise which describes texture information of an image. Finally, we convert the binary sequence to a decimal number. Fig. \ref{results_of_LBP} describes the results of LBP. Three raw images of one girl are under different illuminations. Feature maps obtained by LBP, however, seem similar. It's obvious that these feature maps capture the contour of eyes and nose.
 
 \begin{figure}[!t]
 \centering
@@ -628,11 +628,69 @@ After computing LBP of given images, we can construct a classifier based on the 
 
 (Zhang Qiuying and Lu Qiaoyu)
 
-The motivation of image quality based analysis is that 2D spoofing images like printed photos and relay videos are usually recaptured thus suffer from image distortion. ...
+Face spoof detection methods based on image quality analysis use image quality measures as features to determine whether a face is genuine or not.
 
-\textbf{Zhang Qiuying ...}
+In 2015, Di Wen et. al.\cite{wen2015face} proposed a face spoof detection method with image distortion analysis(IDA) to deal with 2D face mask attacks, such as printed photo and replayed video attacks. Instead of extracting features that capture the facial details, this method tries to capture the face image quality differences due to the different reflection properties of different materials, eg., facial skin, paper, and screen. And this method aims to improve the generalization ability under cross-database(different databases for training and testing) scenarios, which has seldom been explored in the biometrics community.
 
-Noted that image quality strongly depends on the properties of the capturing devices and conditions, .... Considering this scenario, \cite{li2016face} tackled this .... The basic framework proposed is shown as in Fig. \ref{fig.b.2.fram}. 
+To differentiate between genuine and spoof faces, this method designed four discriminative features based on IDA:
+\begin{enumerate}
+\item Specular reflection from the printed paper surface or LCD screen: We extracts specular components based on chromatic difference analysis\cite{tan2008separating}, and then exclude the high-intensity mono-choromatic pixels from specular components\cite{gao2010single}. This generates a 3D feature vector.
+\item Image blurriness due to camera defocus: Two types of blurriness features are utilized: i) based on the difference between the original input image and its blurred version\cite{crete2007blur}, ii) based on the average edge width in the input image\cite{marziliano2002no}. The blurriness feature is 2D.
+\item Image chromaticity and contrast distortion due to imperfect color rendering of printer or LCD screen: According to \cite{chen2006automatic}, first convert the normalized facial image from the RGB space into the HSV space, then compute the mean, deviation, and skewness of each channel as a chromatic feature. Besides, the percentages of pixels in the minimal and maximal histogram bins of each channel are used as two additional features. So the dimensionality of the chromatic moment feature vector is 15.
+\item Color diversity distortion due to limited color resolution of printer or LCD screen: First, color quantization is performed on the normalized face image\cite{chen2006automatic}. Then, the histogram bin counts of the top 100 most frequently appearing colors and the number of distinct colors appearing in the normalized face image are pooled from the color distribution. The dimensionality of the color diversity feature vector is 101.
+\end{enumerate}
+
+These four features are finally concatenated together to generate an IDA feature vector with 121 dimensions. Although the IDA feature vector is extracted from the facial region, it contains only image distortion information, and not any characterization of facial appearance.
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{img/IDA_system.PNG}
+\caption{The spoof detection algorithm based on Image Distortion Analysis.}
+\label{lda_system}
+\end{figure*}
+Fig. \ref{lda_system} shows the system diagram of this method. The input face image is first aligned according to the location of two eyes. Then it's normalized to $144\times 120$ pixels with an interpupillary distance (IPD) of 60 pixels. Face alignment and cropped face size are very important for spoof detection because they significantly reduces the influences of facial and background variations that are irrelevant to spoof detection. Next, for each normalized face image, four different IDA features are extracted, constituting a 121-dimensional feature vector. This feature vector is then fed into multiple SVM classifiers, each trained on a different group of spoof training samples (e.g., printed photo attack and replayed video attack). Finally, the classifier outputs are fused using a min rule \cite{jain2005score} to give the final binary decision: genuine or spoof face.
+
+The experiment was conducted on three databases: Idiap and MSU MFSD collected by Di Wen et. al. using both intra-database and cross-database protocols. And three different types of spoof detection feature vectors: LBP features (as used in \cite{maatta2011face}), DoG-LBP features (as used in \cite{kose2012classification}), and IDA features are evaluated.
+
+The results in Tab.\ref{IDA_results} shows that IDA features performs better than the state-of-the-art methods in intra-database testing scenario and significantly outperforms the baseline methods in cross-database scenario. It performs better in generalization ability.
+\begin{table}[htbp]
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\renewcommand{\arraystretch}{1.3}
+\caption{INTRA-DATABASE AND CROSS-DATABASE PERFORMANCE (\%) OF DIFFERENT METHODS ON BOTH REPLAYED VIDEO AND PRINTED PHOTO ATTACKS}
+\label{IDA_results}
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Train} & \textbf{Test} & \textbf{\tabincell{c}{TPR@\\FAR=0.01}}& \textbf{\tabincell{c}{TPR@\\FAR=0.01}}\\
+\hline
+\multirow{4}{*}{\textbf{LBP+SVM}} & \multirow{2}{*}{Idiap} & Idiap & 94.5 & 57.3\\
+\cline{3-5}
+&&MSU&14.1&0\\
+\cline{2-5}
+& \multirow{2}{*}{MSU} & MSU & 87.0 & 31.5\\
+\cline{3-5}
+&&Idiap&20.9&2.9\\
+\hline
+\multirow{4}{*}{\textbf{\tabincell{c}{DoG-LBP\\+SVM}}} & \multirow{2}{*}{Idiap} & Idiap & 92.1 & 67.0\\
+\cline{3-5}
+&&MSU&19.5&0.2\\
+\cline{2-5}
+& \multirow{2}{*}{MSU} & MSU & 77.3 & 21.4\\
+\cline{3-5}
+&&Idiap&23.6&3.8\\
+\hline
+\multirow{4}{*}{\textbf{\tabincell{c}{IDA+SVM\\(proposed)}}} & \multirow{2}{*}{Idiap} & Idiap & 92.2 & 87.9\\
+\cline{3-5}
+&&MSU&75.5&29.8\\
+\cline{2-5}
+& \multirow{2}{*}{MSU} & MSU & 94.7 & 82.9\\
+\cline{3-5}
+&&Idiap&73.7&38.6\\
+\hline
+\end{tabular}
+\end{table}
+
+Noted that image quality strongly depends on the properties of the capturing devices and conditions, .... Considering this scenario, \cite{li2016face} tackled this .... The basic framework proposed is shown as in Fig. \ref{fig.b.2.fram}.
 
 \begin{figure}[!t]
 \centering
@@ -664,7 +722,7 @@ Noted that image quality strongly depends on the properties of the capturing dev
 
 In light of differences in optical flow fields generated by movements of two-dimensional planes and three-dimensional objects, the paper \cite{Bao2009A} proposed a new liveness detection method for face recognition. Under the assumption that the test region is a two-dimensional plane, we can obtain a reference field from the actual optical flow field data. Then the degree of difference between the two fields can be used to distinguish between a three-dimensional face and a two-dimensional photograph.
 
-Optical flow is the instantaneous speed of a moving spatial object's pixel movements on the projection plane. The research of optical flow is to use the timr-domain change and correlation of pixel intensity in image sequences to study the relationship between the intensity change by time and the object's structure and movement in the scene. The instantaneous change rate of intensity on specific point in projection plane is defiend as optical flow field, which contains information of instantaneous velocity vector of each pixel \cite{Barron1994Performance}.
+Optical flow is the instantaneous speed of a moving spatial object's pixel movements on the projection plane. The research of optical flow is to use the timr-domain change and correlation of pixel intensity in image sequences to study the relationship between the intensity change by time and the object's structure and movement in the scene. The instantaneous change rate of intensity on specific point in projection plane is defined as optical flow field, which contains information of instantaneous velocity vector of each pixel \cite{Barron1994Performance}.
 
 The relative motion between a two-dimensional plane and observer can be divided into four basic types: translation, rotation, moving forward or backward and swing. The four motion types can generate different optical flow field, which is shown in Fig \ref{fig_C_1}.
 
@@ -722,7 +780,7 @@ By analyzing the optical flow field to detect real face, the liveness detection 
 
 The eye-blinking based anti-spoofing technique was proposed by Lin Sun et. al. \cite{pan2007eyeblink} using Conditional Random Fields (CRFs). They develop a real-time liveness testing approach to resist photograph-spoofing in a non-intrusive manner for face recognition, which does not require any additional hardware except for a generic webcamera.
 
-In general, a human can distinguish a live face or a photograph without much effort, since a prominent characteristic of live face is the occurrence of the non-rigid deformation and appearance change, such as mouth motion and expression variation. Accurate and relieable detection of these changes usually needs either high-quality input data or user collaboration. In the previous work, Kollreider et. al. \cite{kollreider2005evaluating} applied optical flow to the input video to obtain the information of face motion for live ness judgement. Frischholz et. al. \cite{frischholz2003avoiding} introduced an interactive approach requiring user to act an obvious response of head movement. With additional hardware, the vein map of the face by near infrared imaging, face thermogram \cite{socolinsky2003face} also could be applied in to liveness detection. But these methods have some drawbacks in common. They require high data quality, additional hardware, or high user collaboration, which is difficult for anti-spoofing.
+In general, a human can distinguish a live face or a photograph without much effort, since a prominent characteristic of live face is the occurrence of the non-rigid deformation and appearance change, such as mouth motion and expression variation. Accurate and reliable detection of these changes usually needs either high-quality input data or user collaboration. In the previous work, Kollreider et. al. \cite{kollreider2005evaluating} applied optical flow to the input video to obtain the information of face motion for live ness judgement. Frischholz et. al. \cite{frischholz2003avoiding} introduced an interactive approach requiring user to act an obvious response of head movement. With additional hardware, the vein map of the face by near infrared imaging, face thermogram \cite{socolinsky2003face} also could be applied in to liveness detection. But these methods have some drawbacks in common. They require high data quality, additional hardware, or high user collaboration, which is difficult for anti-spoofing.
 
 Eyeblink is a physiological activity of rapid closing and opening of the eyelid. It is easy for the generic camera to capture two or more frames for each blink when the face looks into the camera. Hence, it is feasible to adopt eyeblink as a clue for anti-spoofing. The advantages of eyeblink based approach lie in: 1) it can complete in a non-intrusive manner, generally without user collaboration, 2) no extra hardware is required, 3) the eyeblink behavior is the prominently distinguishing character of a live face from a facial photo, which would be very helpful for liveness detection only from a generic camera.
 
@@ -789,7 +847,7 @@ Because $L_\theta$ is concave, every local optimum is also a global optimum. Fin
 
 The inference tasks to label an unknown instance $Y^* = \arg \max_Y p(Y|\mathbb{S})$ can be performed efficiently and exactly by variants of the standard dynamic programming methods for HMM \cite{rabiner1989tutorial}.
 
-To evaluate this approach, Lin Sun et. al. \cite{pan2007eyeblink} built a publicly available blinking video database. Using this blinking database, the CRF-based blinking detecction is compared with cascaded Adaboost and HMM approaches. The detection rate is shown in Tab. \ref{tab_D_1} and Tab. \ref{tab_D_2}.
+To evaluate this approach, Lin Sun et. al. \cite{pan2007eyeblink} built a publicly available blinking video database. Using this blinking database, the CRF-based blinking detection is compared with cascaded Adaboost and HMM approaches. The detection rate is shown in Tab. \ref{tab_D_1} and Tab. \ref{tab_D_2}.
 
 \begin{table}[!htbp]
 \centering
@@ -829,13 +887,38 @@ To evaluate this approach, Lin Sun et. al. \cite{pan2007eyeblink} built a public
 
 The comparison results show that the CRF approach outperforms the others. However, blinking-based liveness detection has some limitations. It would be affected by strong glasses reflection, which may cover eyes partially or totally.
 
-\subsection{Video based analysis}
-
-(Zheng Ziyang) The subtitle could be polished...
-
 \subsection{3D Face Shape based analysis}
 
 (Hu Yue and He Zhuoxun)
+
+According to the above mentioned, challenge-response based methods and skin property based methods have been introduced. Besides, the information about 3D structure can be used to differentiate real face from a mask. The novel liveness detection method, based on 3D structure of the face is proposed by Andrea Lagorio et al. \cite{lagorio2013liveness}. The aim of the proposed technique is to determine if an impostor is employing a 2D image of a genuine user to fool a face recognition system. The proposed method computes the 3D features of the captured face data to determine if a human face has been presented to the acquisition camera.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1\linewidth]{img/E_1}
+\caption{Example of 3D acquisition of a picture of a human face(left) and a real 3D face(right)}
+\label{fig_E_1}
+\end{figure}
+
+In Fig. \ref{fig_E_1}, the lack of surface variation in the scan (i.e. very low surface curvature) is clear evidence the acquisition comes from a 2D source. There is much great difference in the mean curvature of the surface between acquisitions from 2D source and 3D source. The method of distinguishing the impostor with a 2D mask from the genuine user can be implemented by computing the mean curvature of the surface.
+
+Given a 3D scan, an approximation of the actual curvature value at each point $\mathbf{p}$ is computed from the principal components of the Cartesian coordinates within a given neighborhood. The singular value decomposition, or PCA, is computed from the covariance matrix of the Cartesian coordinates of all points lying within a spherical neighborhood $\mathbf{\Omega}_r$ of radius $r$ centered at point $\mathbf{p}$. The value of curvature at $\mathbf{p}$ can be computed by Eq. \ref{eq_E_1}.
+
+\begin{equation}
+\label{eq_E_1}
+C = \frac{\mathbf{(p-b)\cdot v}}{d^2}
+\end{equation}
+where $\mathbf{v}$ is the eigenvector corresponding to the smallest eigenvalue of the decomposition, $\mathbf{b}$ is the baricenter of the Cartesian coordinates of the points within $\mathbf{\Omega}_r$ and $d$ is the mean distance of all points within $\mathbf{\Omega}_r$.
+
+\begin{figure}[!b]
+\centering
+\includegraphics[width=1\linewidth]{img/E_2}
+\caption{Curvature values computed from the 3D data captured from a real human face(left) and a printed picture of the same(right)}
+\label{fig_E_2}
+\end{figure}
+
+In Fig. \ref{fig_E_2}, a comparison between the 3D data acquired from a photograph and from a real 3D face is shown. The color codes the curvature values: blue represents low curvature values and red represents high curvature values. The mean curvature computed from the photograph in Fig. \ref{fig_E_2}, with a value of $r$ equal to 5, is equal to 0.004634. The mean curvature computed from the real face is equal to 0.036957. The large difference (an order of magnitude) between the two curvature values clearly indicates the discriminative power of the proposed method.
+Two experiments are implemented to test the effectiveness of the proposed method. In the first one, the distribution of the mean curvature values for the real human face and the 2D mask was separated, and the value of the False Rejection Rate (FRR), was computed as zero. In the second experiment, in order to determine the sensitivity of the algorithm, various experiments with values of the neighborhood radius $r$ ranging from 4 to 20 are performed. For different values of radius $r$, the value of the FRR at rank 1 is always equal to zero.
 
 Most of the previous work focus on solving the attack of 2D fake masks, however, with development of 3D reconstruction and printing technologies, the primary assumption can no longer be maintained. Nesli Erdogmus and Sebastien Marcel extended their previous work \cite{erdogmus2013spoofing} on 2D mask attacks into 3D. In \cite{erdogmus2014spoofing} they provided a baseline study on the reported papers on the vulnerabilities to 3D mask attacks that is open-source and available for the research community to reuse. Besides, they provided new baselines which had better performance than original state-of-art baseline on 2D, 2.5D and 3D scenarios. And reporting comparative experimental results on two databases which will act as the missing link between the previous studies that have been done on Morpho database and the future studies that will be based on 3D Mask Attack Database (3DMAD) which is the first public spoofing database with facial masks.
 
@@ -847,9 +930,120 @@ They conducted two types of experiments. One is the face verification where the 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=1\linewidth]{img/3D_1}
-\caption{(a) The top row shows a real access from a user in grayscale texture (2D), depth map (2.5D) and 3D model format while an attacker wearing the same user¡¯s mask is displayed in the bottom (b-c) Facial masks obtained from ThatsMyFace.com}
+\caption{(a) The top row shows a real access from a user in grayscale texture (2D), depth map (2.5D) and 3D model format while an attacker wearing the same user's mask is displayed in the bottom (b-c) Facial masks obtained from ThatsMyFace.com}
 \label{fig_3D_1}
 \end{figure}
+
+\subsection{Pulse based analysis}
+
+For 3D mask attack detection,  Nesli Erdogmus used local binary pattern (LBP) \cite{erdogmus2014spoofing} based facial texture representation. Although the texture based method works well on the 3DMAD (see, Fig. \ref{fig_F_1} left), there is a potential limitation which should be concerned. As techniques develop, high quality 3D masks with more realistic texture can be forged  (see, Fig. \ref{fig_F_1} right). Texture based methods would be  outwitted with these kinds of masks. Furthermore, the performance of texture based methods could degrade dramatically in unknown conditions because this approach is only effective in detecting used input camera and fake face type.  So a generalized mask detection approach should be presented which does not make too strong assumptions on the environments.
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/F_1}
+	\caption{Comparison of masks used in 3DMAD (left) and REAL-F (right). Upper left: enlarged area highlights the 3D printing defects of the 3DMAD mask. Upper right: enlarged area shows skin-like texture of the REAL-F mask.}
+	\label{fig_F_1}
+\end{figure}
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=1\linewidth]{img/F_2}
+	\caption{Illustration of how a photoplethysmography (PPG) works.}
+	\label{fig_F_2}
+\end{figure}
+
+\begin{figure*}[!t]
+	\centering
+	\includegraphics[width=1\linewidth]{img/F_3}
+	\caption{Framework of the proposed method. For the sake of simplicity, only the PSD of green channel is shown in part $c$. The PSD curves for red and blue channels are computed in the same way.}
+	\label{fig_F_3}
+\end{figure*}
+
+
+In \cite{li2016generalized}, the author proposed to use pulse detection from facial videos for face anti-spoofing. Heart rate can be measured by using the technology of photoplethysmography (PPG).  When light passes through bare skin parts, hemoglobins in vessels would absorb part of the lights. Cardiac pulse rhythmically changes the number of hemoglobins within a local region, and a PPG can capture the changes by measuring the amount of light being absorbed thus measure the pulse,  showed in Fig. \ref{fig_F_2}. Inspired by the pulse measurement studies \cite{li2014remote}, \cite{poh2011advancements}, the author analyzed these facial color changes that correspond to cardiac pulses in frequency domain, and use their power strengths to build features for the anti-spoofing task. This method is not affected by the fineness of texture and is rarely affected by the environment.  This is the first in-depth study that considers pulse detection for the problem of face anti-spoofing.
+
+
+The method takes a video as the input. Given a facial video of $n$ frames, the first step is to accurately locate and track an area of bare facial skin.  Viola-Jones face detector \cite{viola2001rapid} is applied on the first frame of the input video, and then discriminative response map fitting (DRMF) method \cite{asthana2013robust} is used for finding 66 facial landmarks within the face bounding box. After that,  9 of the 66 landmarks are used for defining a region of interest (ROI) as shown in Fig. \ref{fig_F_3} $a$. The location of ROI is tracked through all frames using the Kanade-Lucas-Tomasi (KLT) algorithm \cite{tomasi1991detection}. Then, three raw pulse signals $r_{raw}$, $g_{raw}$ and $b_{raw}$ (see Fig. \ref{fig_F_3} $b$) are computed one from each RGB channel of these pixels in the tracked ROI, respectively.  For the red channel, the mean value of all pixels inside the ROI is calculated for each frame, so that the raw pulse signal is a one by $n$ vector $r_{raw} = [r_1 , r_2 , . . . , r_n]$. The two other raw signals $g_{raw}$ and $b_{raw}$ are computed similarly.
+
+
+Next, three temporal filters are applied to exclude frequencies which are not relevant for pulse measurement. A detrending filter is the first one based on a smoothness priors approach \cite{tarvainen2002advanced} used for reducing slow and non-stationary trend of the signal. The second one is a moving-average filter for removing random noises by averaging adjacent frames. The third one is a Hamming window based finite impulse response (FIR) bandpass filter with a cutoff frequency range of $[0.7, 4]$ Hz. This range covers the normal range of pulse from 42 beat-per-minute (bmp) to 240 bmp \cite{poh2011advancements}. Then fast Fourier transform (FFT) is used for converting the pulse signals into frequency domain. The power spectral density (PSD) curve is computed in which the power $e$ is estimated as a function of the frequency $f$. Fig. \ref{fig_F_4} shows typical PSD patterns of a real access and a mask attack extracted from the green color channel. We can see that there will be a dominant peak in the PSD if it's a real access. In the case of a mask attack, the PSD usually contains just  random noise peaks at a much lower power level. Therefore, two features are constructed for each color channel for the face liveness detection task. The first feature is denoted as $E$, which is the maximum value of $e$ when $f$ is in the range of $[0.7, 4]$. The second feature is presented as $\Gamma$, which is the ratio of $E$ and the total power, used for increasing the stability of the feature for cross-database testing. The equation is shown as:
+\begin{equation}
+\label{eq_F_1}
+\Gamma = \dfrac{E}{{\Sigma }_{\forall f\in \left[0.7,4\right]}e\left(f\right)}
+\end{equation}
+
+So now there is a six-dimensional feature vector $[E_r, E_g, E_b, {\Gamma}_r, {\Gamma}_g, {\Gamma}_b]$ for each video. Eventually, a support vector machine (SVM) \cite{chang2011libsvm} is used for classifying whether the access is real or deceptive. The framework of the proposed method is shown in Fig. \ref{fig_F_3}.
+
+The author carried out experiments on three datasets in order to evaluate the effectiveness of the pulse-based feature under three different types of attacks: 3D mask, print and video attacks.  The first two experiments consider two different 3D mask attacks provided in 3DMAD and REAL-F datasets. Then the author explored the performance of the proposed approach in detecting print and video replay attacks provided in MSU Mobile Face Spoofing Database (MFSD) \cite{wen2015face}. The widely used LBP features are used as a baseline for comparing the performance of the pulse-based feature.  The results for all experiments are reported using equal error rates (EER) which corresponds to the operating point when the false positive rate (FPR) equals the false negative rate (FNR). For the first two experiments, we also report the half total error rate (HTER):
+\begin{equation}
+\label{eq_F_2}
+HTER = \dfrac{FPR(\tau^{*})+FNR(\tau^{*})}{2}
+\end{equation}
+where the threshold $\tau^{*}$ corresponds to the EER operating point of the used development set.
+
+\begin{table*}[ht]
+	\renewcommand{\arraystretch}{1.3}
+	\normalsize
+	\centering
+	\caption{Results on 3DMAD and REAL-F.}
+	\label{tab_F_1}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		&3DMAD-dev & \multicolumn{2}{c|}{3DMAD-test} & \multicolumn{4}{c|}{REAL-F} \\
+		\hline \hline
+		Method & EER & HTER & EER & HTER & EER & FPR(FNR=0.1) & FPR(FNR=0.01) \\
+		\hline
+		$Pulse$ & \textbf{2.31$\%$} & \textbf{7.94$\%$} & \textbf{4.71$\%$} & \textbf{4.29$\%$} & \textbf{1.58$\%$} & \textbf{0.25$\%$} & \textbf{3.83$\%$} \\
+		\hline
+		$LBP-blk$ & 0$\%$ & 0$\%$ & 0$\%$ & 26.83$\%$ & 25.08$\%$ & 37.92$\%$ & 48.25$\%$ \\
+		\hline
+		$LBP-blk-color$ & 0$\%$ & 0$\%$ & 0$\%$ & 25.92$\%$ & 20.42$\%$ & 31.50$\%$ & 48.67$\%$ \\
+		\hline
+		$LBP-ms$ & 0$\%$ & 0$\%$ & 0$\%$ & 39.87$\%$ & 46.50$\%$ & 59.83$\%$ & 73.17$\%$ \\
+		\hline
+		$LBP-ms-color$ & 0$\%$ & 0$\%$ & 0$\%$ & 47.38$\%$ & 46.08$\%$ & 86.50$\%$ & 95.08$\%$ \\
+		\hline
+	\end{tabular}
+\end{table*}
+
+\begin{table}[ht]
+	\renewcommand{\arraystretch}{1.3}
+	\normalsize
+	\centering
+	\caption{Results as EERs on different sets of MSU MFSD.}
+	\label{tab_F_2}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Method & MSU-photo & MSU-video & MSU-all \\
+		\hline \hline
+		$Pulse$ & \textbf{5.00$\%$} & 35.00$\%$ & 36.67$\%$ \\
+		\hline
+		$LBP-ms-color$ & 10.00$\%$ & \textbf{5.00$\%$} & 13.33$\%$ \\
+		\hline \hline
+		Cascade & - & - & \textbf{7.50$\%$} \\
+		\hline
+		IDA in [5] & - & - & 8.58$\%$ \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=1\linewidth]{img/F_4}
+	\caption{Typical PSD patterns of a real access (left) and a mask attack (right) extracted from the green color channel.}
+	\label{fig_F_4}
+\end{figure}
+
+
+The results worked on 3DMAD and REAL-F datasets are listed in Tab.\ref{tab_F_1}. It can be seen that the $pulse$ feature worked well on the 3DMAD, although all four LBP configurations achieved perfect results. But things are different in the REAL-F database. The pulse-based method also performs robustly under the new type of mask attacks while the performance of LBP features decreases dramatically in the REAL-F database.  The texture based method might be outwitted because of two reasons: 1) they either fail to find texture differences due to the skin-like texture of the high quality mask, 2) or they simply cannot generalize to unseen mask types as they were tuned on a different kind of mask. However, the pulse detection technique has clear semantic definition and does not make strong assumptions on the mask attack type. Therefore, it won’t be affected by the mask quality, and is capable of detecting different kinds of masks, even previously unseen ones.
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=1\linewidth]{img/F_5}
+	\caption{ Cascaded system combining $Pulse$ and $LBP-ms-color$. 'P' indicates positive and 'N' negative (classified as real and attack, respectively).}
+	\label{fig_F_5}
+\end{figure}
+
+The EER results worked on  MFSD  are listed in Tab.\ref{tab_F_2}. It can be seen that the Pulse feature worked best for photo attacks, but failed for video attacks. For photo attacks, the actual recorded material is paper, thus no pulse power should be detected. The LBP feature, however, performed better against video attacks than photo attacks. Based on previous results, the pulse-based method works better on photo attacks while the LBP method works better on video attacks, so the author proposed a general anti-spoofing system by cascading the strongest models of the two features as shown in Fig. \ref{fig_F_5}. Model 1 was trained on MSU-photo set using the $Pulse$ feature, and Model 2 was trained on MSU-video set using $LBP-ms-color$ feature. The cascaded system was tested on the whole MSU MFSD and the performance is robust under print and video attacks, outperforming state of the art \cite{wen2015face}.
 
 \section{Discussion}
 
