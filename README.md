@@ -12,7 +12,7 @@ Group report for course **Visual computing theory and engineering applications**
 - [x] Zhang Qiuying
 - [x] Hu Yue
 - [x] He Zhuoxun
-- [ ] Zuo Chen
+- [x] Zuo Chen
 - [x] Lu Qiaoyu
 - [x] Zheng Ziyang
 - [ ] Liu Jinxiang
