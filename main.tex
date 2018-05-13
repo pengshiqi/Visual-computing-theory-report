@@ -460,7 +460,7 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 
 \begin{abstract}
 %\boldmath
-Face recognition is a widely used biometric approach. Face recognition technology has developed rapidly in recent years and it is more direct, user friendly and convenient compared to other methods. But face recognition systems are vulnerable to spoof attacks made by non-real faces. It is an easy way to spoof face recognition systems by facial pictures such as portrait photographs. A secure system needs Liveness detection in order to guard against such spoofing. In this work, face liveness detection approaches are categorized based on the various types techniques used for liveness detection. A review of the latest works regarding face liveness detection works is presented. Based on these works, some feasible improvements have been proposed in the further discussion.
+Face recognition is a widely used biometric approach. Face recognition technology has developed rapidly in recent years and it is more direct, user friendly and convenient compared to other methods. But face recognition systems are vulnerable to spoof attacks made by non-real faces. It is an easy way to spoof face recognition systems by facial pictures such as portrait photographs. A secure system needs Liveness detection in order to guard against such spoofing. In this work, face liveness detection approaches are categorized based on the various types techniques used for liveness detection. A review of the latest works regarding face liveness detection works is presented. 
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -496,7 +496,7 @@ The main task of a security system is the verification of an individual's identi
 
 Liveness detection has been a very active research topic in fingerprint recognition and iris recognition communities in recent years. But in face recognition, approaches are very limited. The purpose of liveness detection is to differentiate the feature space into live and non-living. With the help of liveness detection, the performance of biometric system will improve. In face recognition, the usual attack methods may be classified into several categories. The classification is based on what verification proof is provided to face verification system, such as a stolen photo, recorded video, 3D face models, and so on. Anti-spoof problem should be well solved before face recognition systems widely applied in our daily life \cite{chakraborty2014overview}.
 
-The remainder of this paper is organized as following. In section \uppercase\expandafter{\romannumeral2}, a review of the most interesting face liveness detection methods are presented. Then in section \uppercase\expandafter{\romannumeral3}, a discussion is presented citing the advantages and disadvantages of various face liveness detection approaches, and some feasible improvements are proposed. Finally, in section \uppercase\expandafter{\romannumeral4}, a conclusion is drawn.
+The remainder of this paper is organized as following. In section \uppercase\expandafter{\romannumeral2}, a review of the most interesting face liveness detection methods are presented. Then in section \uppercase\expandafter{\romannumeral3}, a discussion is presented citing the advantages and disadvantages of various face liveness detection approaches. Finally, in section \uppercase\expandafter{\romannumeral4}, a conclusion is drawn.
 
 
 % needed in second column of first page if using \IEEEpubid
@@ -590,8 +590,6 @@ Many approaches are implemented in Face Liveness Detection. In this section, som
 
 \subsection{Frequency and Texture based analysis}
 
-\textbf{(Zuo Chen and Lai Bolin)}
-
 This approach is basic in Face Liveness Detection. The basic motivation is separating live face from fake face based on some details, such as the texture. Some works use spectrum of face. Live face and fake face may be different in frequency domain, or we can use the low frequency information and high frequency information separately to build a better classifier. In addition, there are several algorithms based on Local Binary Pattern (LBP) to analyse the textures on the given facial image \cite{chingovska2012effectiveness}\cite{maatta2011face}. We can understand this method in a more intuitive way: The live face is a 3D model and this means different parts reflect light differently. A photograph, however, is a platform. It reflects light like a mirror. The different ways of reflection cause the gap between live face and fake face in the texture or frequency. In the experiments, LBP performs well in capture of face texture.
 
 The LBP operator \cite{ojala2002multiresolution} is regarded as a gray-scale invariant texture measure, derived from a general definition of texture in a local neighborhood. For each pixel, we compare its value with pixels arround it as shown in Fig. \ref{LBP}. The pixel larger than center is denoted as 1 and the one smaller than center is denoted as 0. Then we obtain a sequence of 1 and 0 clockwise or counterclockwise which describes texture information of an image. Finally, we convert the binary sequence to a decimal number. Fig. \ref{results_of_LBP} describes the results of LBP. Three raw images of one girl are under different illuminations. Feature maps obtained by LBP, however, seem similar. It's obvious that these feature maps capture the contour of eyes and nose.
@@ -618,8 +616,6 @@ After computing LBP of given images, we can construct a classifier based on the 
 \caption{This is an approach \cite{chingovska2012effectiveness} used to implement Face Liveness Detection based on LBP. The authors use LBP and compute the histogram. SVM is used as classification. This work also gives another way that we can divide give images into several blocks and compute LBP on each block.}
 \label{lbp_based_approach}
 \end{figure*}
-
-\bigskip
 
 The author carried out experiments on the publicly available NUAA Photograph Imposter Database\cite{tan2010face} which includes both photo attacks and real faces of 15 subjects. The spoofing attacks were documented by a video camera at 20fps. Each subject has been recorded 500 images. Then they minimize the movements of the live subjects and add little motions to different vivid photo attacks. The images of 15 subjects are  in 3 sessions, the first two sessions compose the training set and the last session is set for test part. Fig. \ref{Example of real faces and photos}. 
 
@@ -970,8 +966,6 @@ The comparison results show that the CRF approach outperforms the others. Howeve
 
 \subsection{3D Face Shape based analysis}
 
-(Hu Yue and He Zhuoxun)
-
 According to the above mentioned, challenge-response based methods and skin property based methods have been introduced. Besides, the information about 3D structure can be used to differentiate real face from a mask. The novel liveness detection method, based on 3D structure of the face is proposed by Andrea Lagorio et al. \cite{lagorio2013liveness}. The aim of the proposed technique is to determine if an impostor is employing a 2D image of a genuine user to fool a face recognition system. The proposed method computes the 3D features of the captured face data to determine if a human face has been presented to the acquisition camera.
 
 \begin{figure}[!t]
@@ -1128,13 +1122,75 @@ The EER results worked on  MFSD  are listed in Tab.\ref{tab_F_2}. It can be seen
 
 \section{Discussion}
 
-Here, liveness detection approaches are categorized based on the type of liveness indicator used to assist the liveness detection of faces. Three main types of indicators were mainly used: motion, texture and life sign.
+Here, liveness detection approaches are categorized based on the type of liveness indicator used to assist the liveness detection of faces. Several main types of indicators were mainly used: texture, image quality, pulse, optical flow, blink, 3D face shape.Besides, the advantages and disadvantages are illustrated in Tab. \ref{tab_end}.
+
+
+\textbf{Texture} analysis techniques mainly take the advantage of detectable texture patterns such as print failures, and overall image blur to detect attacks. This approach works on the assumption that fake faces are printed on paper, and the printing process and the paper structure that produce texture features can differentiate those printed images from real face images. Here, the user face is printed on a paper and presented in front of the camera for verification or identification. Using texture analysis to identify real faces is useful in such situations, as the printing procedure and paper usually contains high texture characteristics. Texture analysis based approach is easy to implement and it does not need user collaboration. But, a very diverse paper and printing textures can occur, and the systems built on texture analysis must be robust to different texture patterns which require the existence of a very diverse dataset. It is also possible that the attack is performed using a photo displayed on a screen, which will produce very low texture information.
+
+\textbf{Image quality} differences between real and fake samples may include: degree of sharpness, color and luminance levels, local artifacts, amount of information found in both type of images (entropy), structural distortions or natural appearance. Furthermore, different quality measures present different sensitivity to image artifacts and distortions. So image quality analysis techniques pay close attention on the feature derived from image distortion. Because of being software-based, Image quality analysis techniques present the usual advantages of this type of approaches: fast, as it only needs one image to detect whether it is real or fake; non-intrusive; user-friendly; cheap and easy to embed in already functional systems.An added advantage of the proposed technique is its speed and very low complexity, which makes it very well suited to operate on real scenarios. However, every coin has two sides. You need to choose different classifiers for different spoof attacks. 
+
+\textbf{Pulse} based analysis techniques based on the fact that a pulse signal can be only detected in a real living face but not in any mask (or print) material, the method could be a generalized countermeasure to mask (and print) attacks. The pulse based method is very simple yet effective and can be applied in real time. It operates on ordinary color videos, thus no special equipment is needed, which allows it to be generalized to various anti-spoofing scenarios. And this method is as well as able to maintain its robust performance even under (previously unseen) high quality mask attacks because the pulse feature is independent from mask quality and type. Of course, there are still disadvantages of the technique such as need videos, need user collaboration and so on.
+
+\textbf{Optical flow} based analysis are based on the differences between 3D and 2D faces. It uses the fact that, planar objects move significantly different from real human faces which are 3-D objects. When using optical flow based analysis, it is very hard to spoof by 2D face image and is independent of texture and user collaboration is not needed. But, optical flow based analysis needs video and it is very difficult to compute optical flow information when the video have low motion activity. What’s more, this approach can be spoofed by 3D sculptures and it needs high quality images.
+
+\textbf{Blinking} based analysis is a kind of life sign analysis. It uses the eye-blinking movement to distinguish a live face or a photograph. Blinking based analysis is very hard to spoof by 2D face images and 3D sculptures. This approach is also independent of textures. Compared with life sign changes such as mouth motion and expression variation, blinking based analysis does not need high-quality input data, user collaboration or extra hardware. However, this method may depends on face part detection and would be affected by strong glasses reflection, which may cover eyes partially or totally.
+
+\textbf{3D face shape} based analysis uses the information about 3D structure to differentiate real face from a mask. In 2D face detection, the quality of images captured from different devices varies so much that the model learned from images captured from one camera is not proper any more to other cameras. In contrast, 3D face shape based analysis takes into account the 3D structure information, is device independent and hence is robust to this variation. Moreover, the requirements of two images from different viewpoints is easy to be met in real application. However, this approach can still be spoofed by high quality 3D masks as techniques develop and cannot generalize to unseen mask types.
+
+\begin{table}[htbp]
+\centering
+\caption{Advantages and Disadvantages of liveness detection approaches}
+\label{tab_end}
+\begin{tabular}{|c|p{2.5cm}|p{2.5cm}|}
+\toprule
+\textbf{Liveness indicator methods} &  \textbf{Advantages} & \textbf{Disadvantages}  \\
+\midrule
+\multirow{3}*{ Texture based analysis} & \textbullet Easy to implement & \textbullet Images with low texture Information  \\
+		~ & \textbullet No need of user collaboration & \textbullet Dataset must be diverse  \\
+		~ &  \textbullet Fast response($\textless$1s) & ~\\
+\hline
+
+\multirow{3}*{ Image quality based analysis} & \textbullet Good generalization & \textbullet Different classifiers needed for different spoof attacks  \\ 
+		~ & \textbullet Fast response($\textless$1s) & ~  \\
+		~ &  \textbullet Low computational complexity & ~\\
+\hline
+
+
+\multirow{3}*{ Pulse} & \textbullet Easy to implement & \textbullet User collaboration is needed  \\ 
+		~ & \textbullet Good generalization ability & \textbullet Needs video sequence  \\
+		~ &  \textbullet High robustnes & ~\\
+\hline
+
+\multirow{4}*{Optical flow based analysis} & \textbullet Independent of texture & \textbullet Needs videos\\ 
+		~ & \textbullet Hard to spoof by 2D face image & \textbullet Difficult to use when video has low motion activity  \\
+		~ &  \textbullet No need of user collaboration & \textbullet Can be spoofed by 3D Sculptures \\
+		~ & ~ & \textbullet Needs high quality images \\
+\hline
+
+\multirow{4}*{Blinking based analysis} & \textbullet Hard to spoof by 2D face images and 3D sculptures & \textbullet Needs video  \\ 
+		~ & \textbullet Independent of texture & \textbullet Depends on face part  detection  \\
+		~ &  \textbullet No need of high-quality input data & \textbullet Would be affected by strong glasses reflection\\
+		~ & \textbullet No need of extra hardware and user collaboration & ~ \\
+\hline
+
+
+
+\multirow{4}*{3D face shape based analysis} & \textbullet Device independent& \textbullet Can be spoofed by high quality 3D masks  \\ 
+		~ & \textbullet Can work with various inouts & \textbullet Cannot generalize to unseen mask typese  \\
+		~ &  \textbullet No need of user collaboration & ~\\
+		~ & \textbullet Easy to implement & ~\\ 
+\hline
+		
+\bottomrule		
+\end{tabular}
+\end{table}
 
 
 
 \section{Conclusion}
 
-This work provided an overview of different approaches of face liveness detection.
+This work concludes different approaches of face liveness detection. To deep into the spoof  attack scenarios and solutions along with them, a categorization is made according to the type of each liveness indicator and type of techniques used. When dealing with realistic problems, We have to use different algorithms for different situations considering characteristic of various algorithms. What's more, a dataset that considers a wide range of factors  and is close to real scenarios also matters in measuring the performance of liveness detection solutions in the future.
+The main aim of this paper is to give a clear pathway for future development of more secured, user friendly and efficient approaches for face liveness detection. 
 
 
 
@@ -1156,14 +1212,53 @@ This work provided an overview of different approaches of face liveness detectio
 
 
 \appendices
-\section{Proof of the First Zonklar Equation}
-Some text for the appendix.
+\section{Group Contribution Proportion}
+
+All the group members contribute equally. See Tab. \ref{tab_contri} for details.
+
+% \begin{table}[!htbp]
+% \centering
+% \caption{Group members contribution percentage.}
+% \label{tab_contri}
+% \begin{tabular}{cc}
+% \toprule
+% Group Member & Contribution Percentage
+% \midrule
+% Peng Shiqi & 8.33\% \\
+% Peng Shiqi & 8.33\% 
+% \bottomrule
+% \end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Group members contribution percentage.}
+\label{tab_contri}
+\begin{tabular}{ccc}
+\toprule
+\textbf{Group Member} & \textbf{Contribution Percentage} \\
+\midrule
+\textbf{Peng Shiqi} & 8.33\% \\
+\textbf{Huo Xiaoyang} & 8.33\% \\
+\textbf{Lai Bolin} & 8.33\% \\
+\textbf{He Zhuoxun} & 8.33\% \\
+\textbf{Hu Yue} & 8.33\% \\
+\textbf{Zhang Qiuying} & 8.33\% \\
+\textbf{Lu Qiaoyu} & 8.33\% \\
+\textbf{Zuo Chen} & 8.33\% \\
+\textbf{Zheng Ziyang} & 8.33\% \\
+\textbf{Liu Jinxiang} & 8.33\% \\
+\textbf{Xu Qinwei} & 8.33\% \\
+\textbf{Ju Chen} & 8.33\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 
 % use section* for acknowledgement
 \section*{Acknowledgment}
 
-
-The authors would like to thank...
+The authors would like to thank Prof. Ni Bingbing and TA.
 
 
 % Can use something like this to put references on a page
