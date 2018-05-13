@@ -15,9 +15,9 @@ Group report for course **Visual computing theory and engineering applications**
 - [x] Zuo Chen
 - [x] Lu Qiaoyu
 - [x] Zheng Ziyang
-- [ ] Liu Jinxiang
-- [ ] Xu Qinwei
-- [ ] Ju Chen
+- [x] Liu Jinxiang
+- [x] Xu Qinwei
+- [x] Ju Chen
 
 ---
 
