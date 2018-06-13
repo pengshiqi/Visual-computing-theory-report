@@ -1,9 +1,18 @@
-main.aux
-main.fdb_latexmk
-main.fls
-main.log
-main.pdf
-main.synctex.gz
-main.bbl
-main.blg
+literature_report/main.aux
+literature_report/main.fdb_latexmk
+literature_report/main.fls
+literature_report/main.log
+literature_report/main.pdf
+literature_report/main.synctex.gz
+literature_report/main.bbl
+literature_report/main.blg
+
+project_report/main.aux
+project_report/main.fdb_latexmk
+project_report/main.fls
+project_report/main.log
+project_report/main.pdf
+project_report/main.synctex.gz
+project_report/main.bbl
+project_report/main.blg
 
