@@ -4,20 +4,15 @@ Group report for course **Visual computing theory and engineering applications**
 
 ---
 
-**完成打卡** (完成自己的部分后请打钩)：
+### Outline for project report!
 
-- [x] Peng Shiqi
-- [x] Lai Bolin
-- [x] Huo Xiaoyang
-- [x] Zhang Qiuying
-- [x] Hu Yue
-- [x] He Zhuoxun
-- [x] Zuo Chen
-- [x] Lu Qiaoyu
-- [x] Zheng Ziyang
-- [x] Liu Jinxiang
-- [x] Xu Qinwei
-- [x] Ju Chen
+1. Innovation
+
+2. Analysis
+
+3. Data scale
+
+4. Writing
 
 ---
 
