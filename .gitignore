@@ -16,3 +16,10 @@ project_report/main.synctex.gz
 project_report/main.bbl
 project_report/main.blg
 
+code/data/__pycache__
+code/mocels/__pycache__
+code/utils/__pycache__
+
+code/data/dataset.py~
+
+
