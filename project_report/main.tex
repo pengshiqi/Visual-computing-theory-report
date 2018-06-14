@@ -390,7 +390,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Face Liveness Detection}
+\title{Face Liveness Detection Project Report}
 %
 %
 % author names and IEEE memberships
@@ -460,7 +460,10 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 
 \begin{abstract}
 %\boldmath
-\blindtext[1]
+% \blindtext[1]
+
+TODO
+
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -471,7 +474,8 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-IEEEtran, journal, \LaTeX, paper, template.
+% IEEEtran, journal, \LaTeX, paper, template.
+Face liveness detection, CNN. 
 \end{IEEEkeywords}
 
 
@@ -492,12 +496,13 @@ IEEEtran, journal, \LaTeX, paper, template.
 
 
 \section{Introduction}
-\blindtext
+% \blindtext
 
-\cite{chingovska2012effectiveness}
+\IEEEPARstart{I}{n} the previous literature report, we have investigated various methods to against face liveness spoof attacks, such as frequency and texture based methods \cite{chingovska2012effectiveness} \cite{maatta2011face}, image quality based methods \cite{wen2015face}, optical flow based methods \cite{Bao2009A}, blinking based methods \cite{pan2007eyeblink}, 3D face shape based methods \cite{lagorio2013liveness}, pulse based methods \cite{erdogmus2014spoofing}. However, all these approaches are in a traditional fashion. They are out of date to some extent.
 
-\subsection{Subsection Heading Here}
-\blindtext
+In the last few years, deep learning developed rapidly and it achieved extraordianry successes in many different fields. Behind this, convolutional neural network contributes a lot. Convolutional neural network is a class of deep, feed-forward artificial neural networks, most commonly applied to analyzing visual imagery. Inspired by this, we decide to apply this state-of-the-art technology to our anti-spoofing task.
+
+The remainder of this paper is organized as following. In section \uppercase\expandafter{\romannumeral2}, our innovation and the approach to detect face liveness are introcduced in detail. Then in section \uppercase\expandafter{\romannumeral3}, the experiments are presented and the results are discussed. Finally, in section \uppercase\expandafter{\romannumeral4}, a conclusion is drawn.
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
@@ -584,10 +589,20 @@ IEEEtran, journal, \LaTeX, paper, template.
 % floats. This can be corrected via the \fnbelowfloat command of the
 % stfloats package.
 
+\section{Approach}
 
+TODO
+
+\subsubsection*{\textbf{Innovation}} The innovation of our face liveness detection methods is that we regard this task as a binary image classification job. We use many real face images and fake face images to train a convolutional neural network, then this CNN has the ability to classify an arbitrary new facial image as real or fake.
+
+\section{Experiments}
+
+TODO
 
 \section{Conclusion}
-\blindtext
+% \blindtext
+
+TODO
 
 
 
