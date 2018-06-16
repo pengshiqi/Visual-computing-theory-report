@@ -29,7 +29,7 @@
 %% Legal Notice:
 %% This code is offered as-is without any warranty either expressed or
 %% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE!
+%% FITNESS FOR A PARTICULAR PURPOSE! 
 %% User assumes all risk.
 %% In no event shall IEEE or any contributor to this code be liable for
 %% any damages or losses, including, but not limited to, incidental,
@@ -143,7 +143,7 @@
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
 % installed on most LaTeX systems. The latest version and documentation can
-% be obtained at:
+% be obtained at: 
 % http://www.ctan.org/tex-archive/macros/latex/required/graphics/
 % Another good source of documentation is "Using Imported Graphics in
 % LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
@@ -268,7 +268,7 @@
 % IEEEtran.cls handling of captions and this will result in nonIEEE style
 % figure/table captions. To prevent this problem, be sure and preload
 % caption.sty with its "caption=false" package option. This is will preserve
-% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
 % (recommended due to many improvements over 1.2) of subfig.sty supports
 % the caption=false option directly:
 %\usepackage[caption=false,font=footnotesize]{subfig}
@@ -354,7 +354,7 @@
 % http://www.ctan.org/tex-archive/macros/latex/contrib/endfloat/
 %
 % The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
-% later in the document, say, to conditionally put the References on a
+% later in the document, say, to conditionally put the References on a 
 % page by themselves.
 
 
@@ -406,10 +406,10 @@
 \thanks{All the authors are with the Department
 of Electronic Engineering, Shanghai Jiao Tong University.}}
 
-% note the % following the last \IEEEmembership and also \thanks -
+% note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
 % and the end of the author line. i.e., if you had this:
-%
+% 
 % \author{....lastname \thanks{...} \thanks{...} }
 %                     ^------------^------------^----Do not want these spaces!
 %
@@ -431,7 +431,7 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 {Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Journals}
 % The only time the second header will appear is for the odd numbered pages
 % after the title page when using the twoside option.
-%
+% 
 % *** Note that you probably will NOT want to include the author's ***
 % *** name in the headers of peer review papers.                   ***
 % You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
@@ -461,7 +461,9 @@ of Electronic Engineering, Shanghai Jiao Tong University.}}
 \begin{abstract}
 %\boldmath
 % \blindtext[1]
-Face anti-spoofing is an important problem in face recognition system. Although most face anti-spoofing methods use the hand-crafted texture features, e.g., LBP, LBP-TOP, but we decide to use deep convolutional neural network (CNN), which can capture the most discriminative features between genuine and fake faces. Combined with some data pre-processing, the CNN method achieved pretty good results on the given database. In the experiments, 98\% accuracy is achieved on the Idiap REPLAY-ATTACK database, which is comparable to the state-of-the-art methods. 
+
+Face anti-spoofing is an important problem in face recognition system. Although most face anti-spoofing methods use the hand-crafted texture features, e.g., LBP, LBP-TOP, but we decide to use deep convolutional neural network (CNN), which can capture the most discriminative features between genuine and fake faces. Combined with some data pre-processing, the CNN method achieved pretty good results on the given database. In the experiments, 98.46\% accuracy is achieved on the Idiap REPLAY-ATTACK database, which is comparable to the state-of-the-art methods. 
+
 
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
@@ -474,7 +476,7 @@ Face anti-spoofing is an important problem in face recognition system. Although 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
 % IEEEtran, journal, \LaTeX, paper, template.
-Face liveness detection, CNN.
+Face liveness detection, CNN. 
 \end{IEEEkeywords}
 
 
@@ -499,9 +501,9 @@ Face liveness detection, CNN.
 
 \IEEEPARstart{F}{ace} anti-spoofing, as a security measure for face recognition system, are drawing increasing attentions in both academic and industrial fields. Due to the diversity of spoofing types, including print-attacks, replay-attacks, mask-attacks, etc., itis still a difficult work to distinguish various fake faces. Usually, there is no visual cue that is available to us to pick the genuine face images.
 
-Usually, the traditional anti-spoofing methods can be classified into four groups.
+Usually, the traditional anti-spoofing methods can be classified into four groups. 
 
-(1) \emph{Texture-based Anti-Spoofing:} \cite{li2004live} proposed methods based on the analysis of Fourier spectra. In this method, it is assumed that the photographs contain fewer high frequency components compared with genuine faces. \cite{tan2010face} used DoG (difference-of-Gaussian) filters to extract latent features on face images. In \cite{chingovska2012effectiveness}, a method using LBP features was proposed, which outperformed previous methods.
+(1) \emph{Texture-based Anti-Spoofing:} \cite{li2004live} proposed methods based on the analysis of Fourier spectra. In this method, it is assumed that the photographs contain fewer high frequency components compared with genuine faces. \cite{tan2010face} used DoG (difference-of-Gaussian) filters to extract latent features on face images. In \cite{chingovska2012effectiveness}, a method using LBP features was proposed, which outperformed previous methods. 
 
 (2) \emph{3D Shape-based Anti-Spoofing:} In \cite{de2012moving}, Marsico et al. proposed a method for moving face anti-spoofing based on 3D projective invariants. But this method can only cope with photo attacks without warping. In \cite{wang2013face}, the authors proposed to recover 3D shapes for face images to detect various photo attacks. However, both methods will fail when coping with 3D mask spoofing.
 
@@ -534,7 +536,7 @@ The remainder of this paper is organized as following. In section \uppercase\exp
 %\begin{figure}[!t]
 %\centering
 %\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex,
+% where an .eps filename suffix will be assumed under latex, 
 % and a .pdf suffix will be assumed for pdflatex; or what has been declared
 % via \DeclareGraphicsExtensions.
 %\caption{Simulation Results}
@@ -568,7 +570,7 @@ The remainder of this paper is organized as following. In section \uppercase\exp
 % reference/describe all of them (a), (b), etc., within the main caption.
 
 
-% An example of a floating table. Note that, for IEEE style tables, the
+% An example of a floating table. Note that, for IEEE style tables, the 
 % \caption command should come BEFORE the table. Table text will default to
 % \footnotesize as IEEE normally uses this smaller font for tables.
 % The \label must come after \caption as always.
@@ -608,7 +610,95 @@ TODO
 
 \section{Experiments}
 
-TODO
+In this section, we discuss the implementation details and evaluate the performance of the proposed method.
+\subsubsection*{\textbf{Dataset}}
+The Replay-Attack Database for face spoofing consists of 1300 video clips of photo and video attack attempts to 50 clients, under different lighting conditions \cite{chingovska2012effectiveness}. The training dataset contains 60 real-access videos from 15 different people and 300 attack videos under different lighting conditions.The way to perform the attacks can be divided into two subsets: the first subset is composed of videos generated using a stand to hold the client biometry. For the second set, the attacker holds the device used for the attack with their own hands. Frames of the video clips have been extracted at a frequency of 2HZ with a resolution of 640 by 480. After processing, the training dataset consists of 6450 attack images and 1980 real-access images, while the test dataset consists of 8600 attack images and 2640 real-access images. Three images with different kinds are shown in Fig. \ref{fig_EX_123}. It's obvious that we can't recognize the face liveness with eyes.
+
+\begin{figure}[!t]
+	\centering
+	\subfigure{}{
+		\begin{minipage}{4cm}
+		     \centering
+		     \includegraphics[width=4cm]{figure/EX_1}
+		     \end{minipage}
+	}
+	\subfigure{}{
+		\begin{minipage}{4cm}
+			\centering
+			\includegraphics[width=4cm]{figure/EX_2}
+		\end{minipage}
+	}
+    \subfigure{}{
+	\begin{minipage}{4cm}
+		\centering
+		\includegraphics[width=4cm]{figure/EX_3}
+	\end{minipage}
+    }
+	\caption{A Real-access image and two attack images from the Replay-Attack Database. Upper left: the attack image comes from  videos generated using a stand to hold the client biometry.Upper right: the attacker holds the device used for the attack with their own hands, which generates the attack image. Under: this image is a real-access image.}
+	\label{fig_EX_123}
+\end{figure}
+
+\subsubsection*{\textbf{Training}}
+Our networks are trained using Pytorch and optimized using Stochastic Gradient Descent (SGD) . In order to adapt the input size of the network, all the pictures have been cut and retain the central area with a resolution of 224 by 224. The initial learning rate is set to 0.001. Step strategy is applied with learning decay rate 0.5 and weight decay $10^{-5}$ .The batch size is set to 32 and the maximum number of epochs is 10. Although not so many iterations are carried out, the experimental results shows that the proposed method works with a satisfactory performance. The performance may increase further with much more iterations. 
+
+\subsubsection*{\textbf{Experimental Results}}
+The widely used LBP features are considered as a baseline for comparing the performance of the proposed method \cite{chingovska2012effectiveness}. Besides, we also compare the performance with a face liveness detection method based on nonlinear diffusion using CNN \cite{alotaibi2017deep},  called ND-CNN below.  The performance of our method
+is reported using equal error rates (EER) which corresponds to the operating point when the false positive rate (FPR) equals the false negative rate (FNR).We compute the half total error rate (HTER) to measure the performance of our proposed approach \cite{bengio2004statistical}. The HTER is half of the sum of FPR and FNR, as shown below:
+\begin{equation}
+\label{eq_Ex_1}
+HTER = \frac{FPR+FNR}{2}
+\end{equation}
+
+ Tab. \ref{tab_EX_1} shows the performance of our proposed method and the comparison is shown in Tab. \ref{tab_EX_2} . It can be seen that the proposed method shows the best performance in these algorithms. It works well on the Replay-Attack Database with an HTER of less than 2$\%$ and an accuracy of 98.46$\%$ in the test dataset. Compared to LBP method and the ND-CNN method ,  our proposed method have a huge improvement in HTER. There are two reasons why our proposed method has achieved such excellent performance. First, we extract frames from the video as input ,which may reduce the processing complexity. Besides, our network can extract more robust features than other algorithms.  The information from previous layers can be integrated into the next layer through our network. Each layer has direct access to the gradients from the loss function and the original input signal. leading to an implicit deep supervision. Moreover, compared to the ND-CNN method, our network has much faster convergence rate, which guarantees the performance even with less iterations.
+ 
+ \begin{table}[ht]
+ 	\renewcommand{\arraystretch}{1.3}
+ 	\normalsize
+ 	\centering
+ 	\caption{ The performance of our proposed method}
+ 	\label{tab_EX_1}
+ 	\begin{tabular}{|c|c|}
+ 		\hline
+ 		 Performance & Our proposed method\\
+ 		\hline \hline
+ 		$FPR$ & 1.24$\%$ \\
+ 		\hline
+ 		$FNR$ & 2.5$\%$ \\
+ 		\hline 
+ 		$EER$ & 0.83 $\%$  \\
+ 		\hline
+ 		$HTER$ & 1.87 $\%$ \\
+ 		\hline
+ 		$Accuracy$  & 98.46 $\%$ \\
+ 		\hline
+ 	\end{tabular}
+ \end{table}
+ 
+ \begin{table}[ht]
+ 	\renewcommand{\arraystretch}{1.3}
+ 	\normalsize
+ 	\centering
+ 	\caption{ HTER ($\%$) of classiﬁcation for the Replay Attack dataset}
+ 	\label{tab_EX_2}
+ 	\begin{tabular}{|c|c|}
+ 		\hline
+ 		Method & Test ($\%$)\\
+ 		\hline \hline
+ 		$LBP^{u2}_{3 \times3}+x^{2}$ & 34.01$\%$ \\
+ 		\hline
+ 		$LBP^{u2}_{3 \times3}+LDA$ & 17.17$\%$ \\
+ 		\hline 
+ 		$LBP^{u2}_{3 \times3}+SVM$ & 15.16 $\%$  \\
+ 		\hline
+ 		$LBP+SVM$ & 13.87 $\%$ \\
+ 		\hline
+ 		ND-CNN  & 10.00 $\%$ \\
+ 		\hline
+ 		Our proposed approach  & \textbf{1.87$\%$} \\
+ 		\hline
+ 	\end{tabular}
+ \end{table}
+
 
 \section{Conclusion}
 % \blindtext
@@ -708,7 +798,7 @@ The authors would like to thank Prof. Ni Bingbing and TA.
 % \end{thebibliography}
 
 % biography section
-%
+% 
 % If you have an EPS/PDF photo (graphicx package needed) extra braces are
 % needed around the contents of the optional argument to biography to prevent
 % the LaTeX parser from getting confused when it sees the complicated
