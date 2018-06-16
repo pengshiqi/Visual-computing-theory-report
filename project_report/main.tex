@@ -69,6 +69,8 @@
 \usepackage{booktabs}
 \usepackage{subfigure}
 \usepackage{multirow}
+\usepackage{mathrsfs}
+%\usepackage[justification=centering]{caption}
 
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
@@ -603,9 +605,50 @@ The remainder of this paper is organized as following. In section \uppercase\exp
 
 \section{Approach}
 
-TODO
 
 \subsubsection*{\textbf{Innovation}} The innovation of our face liveness detection methods is that we regard this task as a binary image classification job. We use many real face images and fake face images to train a convolutional neural network, then this CNN has the ability to classify an arbitrary new facial image as real or fake.
+
+\subsection{Resnet34}
+ With the depth of networks increasing, the performances of networks unexpectedly degrade rapidly and the extra layers can just act as an identity function. Deep residual networks were proposed to solve the degradation which appears in deeper networks\cite{he2016deep}\cite{he2016identity}. Instead of directly fitting a desired underlying mapping, these stacked layers fit a residual mapping. Formally, denoting the desired underlying mapping as $\mathcal{H}(\mathbf{x})$, the stacked nonlinear layers fit another mapping of $\mathcal{F}(\mathbf{x}) := \mathcal{H}(\mathbf{x})-\mathbf{x}$. The original mapping is recast into $\mathcal{F}(\mathbf{x}) + \mathbf{x}$. The author hypothesizes that it is easier to optimize the residual mapping function $\mathcal{F}(\mathbf{x})$ than to optimize the original, unreferenced mapping $\mathcal{H}(\mathbf{x})$. 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{img/Res_block}
+\caption{Residual learning: a building block.}
+\label{fig_2_1}
+\end{figure}
+
+The formulation of $\mathcal{F}(\mathbf{x})+\mathbf{x}$ can be realized by feedforward neural networks with shortcut connection in Fig. \ref{fig_2_1}. The degradation problem suggests that the solvers might have difficulties in approximating identity mappings by multiple nonlinear layers. With the residual learning reformulation, if identity mappings are optimal, the solvers may simply drive the weights of the multiple nonlinear layers toward zero to approach identity mappings.
+
+As shown in Fig. \ref{fig_2_1}, the residual blocks can be defined as: 
+
+\begin{equation}
+\label{eq_2_1}
+\mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + \mathbf{x}
+\end{equation}
+where $\mathbf{x}$ and $\mathbf{y}$ are the input and output of the residual blocks, the function $\mathcal{F}(\mathbf{x}, \{W_i\})$ represents the residual mapping, and $W_i$ are the parameters of residual blocks. 
+
+The operation $\mathcal{F}+\mathbf{x}$ is performed by a shortcut connection and element-wise addition. So $\mathcal{F}$ and $\mathbf{x}$ must be of the same dimensions. When changing the input/output channels, this can not be the case. It is necessary to match dimensions. A linear projection $W_s$ can be implemented:
+\begin{equation}
+\label{eq_2_2}
+\mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + W_s\mathbf{x}
+\end{equation}.
+
+According to Eqn. (\ref{eq_2_1}) and (\ref{eq_2_2}), the 34-layer residual network (Resnet34) can be constructed as shown in Fig. \ref{fig_2_2}. The identity shortcuts (Eqn.(\ref{eq_2_1})) can be directly used when the input and output are of the same dimensions (solid line shortcuts in Fig. \ref{fig_2_2}). The projection shortcut in Eqn.(\ref{eq_2_2}) is used to match dimensions (done by $1\times1$ convolutions) when dimensions increase (dotted line shortcuts in Fig. \ref{fig_2_2}). Besides, when the shortcuts go across feature maps of two sizes, they are performed with a stride of 2.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=1.8in]{img/Res34}
+\caption{The 34-layer residual network.}
+\label{fig_2_2}
+\end{figure}
+
+\subsection{Methodology}
+CNN performs well in many tasks of computer vision fields. After reading resent papers of face liveness detection, we found most of the algorithms are based on traditional method. So we try to introduce convolutional neural network into this task. Considering the face liveness as a classification task, we use CNN to extract the local features of facial images.
+
+There are many well-designed deep neural networks that has achieved high accuracy in imagenet competition, which means they can extract the important features of the images. In our face liveness detection task, we also need to tell the real and fake facial images apart, which means we also need well-extracted image features. So we use the pretrained network based on imagenet which contains diversities of images. 
+Since the facial images in our dataset are clean and have high-resolution, high quality, and the task can be considered as binary classification, the task seems like a simple problem. Then we decide to try a relatively shallow network to see if CNN is well-suited in our task. In our experiment, we use famous residual network as our basic framework. We choose the two blocks' version Resnet34.
+Our task is not exactly like the image classification competition which have 1000 classes. We change the last fully connected layer of the Resnet34 to 2. Then use the pretrained paramaters to initialize our network. As for the data feeding part, since the original data of our data is video, we extract keyframes at first, then process them into 224x224x3 which is the input data format of the network. After getting the right format training samples, we feed them into the altered Resnet34 and start the training process. We will introduce our experiments and results in details in the next section.
 
 \section{Experiments}
 
