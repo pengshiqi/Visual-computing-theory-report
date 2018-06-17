@@ -366,6 +366,7 @@
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
 %\usepackage{url}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
 % systems. The latest version can be obtained at:
@@ -607,7 +608,7 @@ The remainder of this paper is organized as following. In section \uppercase\exp
 \section{Approach}
 
 
-\subsubsection*{\textbf{Innovation}} The innovation of our face liveness detection methods is that we regard this task as a binary image classification job. We use many real face images and fake face images to train a convolutional neural network, then this CNN has the ability to classify an arbitrary new facial image as real or fake.
+\subsubsection*{\textbf{Our Innovation}} The innovation of our face liveness detection methods is that we regard this task as a binary image classification job. We use many real face images and fake face images to train a convolutional neural network, then this CNN has the ability to classify an arbitrary new facial image as genuine or fake.
 
 \subsection{Resnet34}
  With the depth of networks increasing, the performances of networks unexpectedly degrade rapidly and the extra layers can just act as an identity function. Deep residual networks were proposed to solve the degradation which appears in deeper networks\cite{he2016deep}\cite{he2016identity}. Instead of directly fitting a desired underlying mapping, these stacked layers fit a residual mapping. Formally, denoting the desired underlying mapping as $\mathcal{H}(\mathbf{x})$, the stacked nonlinear layers fit another mapping of $\mathcal{F}(\mathbf{x}) := \mathcal{H}(\mathbf{x})-\mathbf{x}$. The original mapping is recast into $\mathcal{F}(\mathbf{x}) + \mathbf{x}$. The author hypothesizes that it is easier to optimize the residual mapping function $\mathcal{F}(\mathbf{x})$ than to optimize the original, unreferenced mapping $\mathcal{H}(\mathbf{x})$. 
@@ -692,7 +693,7 @@ is reported using equal error rates (EER) which corresponds to the operating poi
 HTER = \frac{FPR+FNR}{2}
 \end{equation}
 
- Tab. \ref{tab_EX_1} shows the performance of our proposed method and the comparison is shown in Tab. \ref{tab_EX_2} . It can be seen that the proposed method shows the best performance in these algorithms. It works well on the Replay-Attack Database with an HTER of less than 2$\%$ and an accuracy of 98.46$\%$ in the test dataset. Compared to LBP method and the ND-CNN method ,  our proposed method have a huge improvement in HTER. There are two reasons why our proposed method has achieved such excellent performance. First, we extract frames from the video as input ,which may reduce the processing complexity. Besides, our network can extract more robust features than other algorithms.  The information from previous layers can be integrated into the next layer through our network. Each layer has direct access to the gradients from the loss function and the original input signal. leading to an implicit deep supervision. Moreover, compared to the ND-CNN method, our network has much faster convergence rate, which guarantees the performance even with less iterations.
+ Tab. \ref{tab_EX_1} shows the performance of our proposed method and the comparison is shown in Tab. \ref{tab_EX_2} . It can be seen that the proposed method shows the best performance in these algorithms. It works well on the Replay-Attack Database with an HTER of less than 2$\%$ and an accuracy of 98.46$\%$ on the test dataset. Compared to LBP method and the ND-CNN method ,  our proposed method have a huge improvement in HTER. There are two reasons why our proposed method has achieved such excellent performance. First, we extract frames from the video as input ,which may reduce the processing complexity. Besides, our network can extract more robust features than other algorithms.  The information from previous layers can be integrated into the next layer through our network. Each layer has direct access to the gradients from the loss function and the original input signal. leading to an implicit deep supervision. Moreover, compared to the ND-CNN method, our network has much faster convergence rate, which guarantees the performance even with less iterations.
  
  \begin{table}[ht]
  	\renewcommand{\arraystretch}{1.3}
@@ -746,10 +747,7 @@ HTER = \frac{FPR+FNR}{2}
 \section{Conclusion}
 % \blindtext
 
-TODO
-
-
-
+In this project, we implemented our innovative face liveness detection method. We regard this task as a binary image classification job. Then we trained a convolutional neural network on the Idiap REPLAY- ATTACK database, and this model has the ability to classify an arbitrary new facial image as genuine or fake. Furthermore, combined with some data pre-processing, our model achieved pretty good results, which is comparable to the state-of-the-art methods.
 
 
 % if have a single appendix:
